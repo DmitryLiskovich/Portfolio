@@ -1,26 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Navigate from './components/Navbar'
+import { HashRouter, Route, Redirect, Switch } from 'react-router-dom';
+import About  from './components/About/About';
+import Notfount from './components/Notfound/Notfound'
+import Weather from './components/Weather/Weather' 
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+export default function App({match}) {
+  return(
+    <div>
+      <Navigate></Navigate>
+      <HashRouter>
+        <Switch>
+          <Route path='/weather' component={Weather}></Route>
+          <Route path='/blog'></Route>
+          <Route path='/about' component={About}></Route>
+          <Route path='/contact'></Route>
+          <Route path='/notfound' component={Notfount}></Route>
+          <Redirect from='/' to='/about'></Redirect>
+        </Switch>
+      </HashRouter>
     </div>
   );
 }
-
-export default App;

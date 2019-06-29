@@ -1,0 +1,14 @@
+.notfound{
+  width: 100%;
+  text-align: center;
+  margin: auto;
+  padding: 0;
+  margin-top: 50vh;
+  transform: translateY(-70%);
+  & h1{
+    font-size: 4rem;
+  }
+  & h3{
+    font-size: 2.7rem;
+  }
+}
