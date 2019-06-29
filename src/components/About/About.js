@@ -8,6 +8,7 @@ function About () {
     const [currentPost, setCurrentPost] = useState(1);
 
     const slider = (post) => {
+        document.title = 'About me';
         const posts = [`One of my hobbies is sport. I started doing sport when I was 10 y.o. Now I can do many different flips. I think it's amazing when you can do what other people can’t.`, 
         `What can I say about my current work? Usually, I create 3d models and it's cool. But now I have fallen in love with frontend developing.`, 
         `I discovered frontend developing a few months ago. And now I like it so much, and I devote to it all my free time.`];

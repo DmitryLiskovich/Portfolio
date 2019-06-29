@@ -4,6 +4,8 @@ import axios from 'axios';
 import './Weather.scss'
 
 export default function (){
+
+  document.title = 'Weather';
   
   const [weather, setWeather] = useState({
     city: null,

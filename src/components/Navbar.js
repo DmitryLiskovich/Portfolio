@@ -20,7 +20,7 @@ export default function Navigate(){
                     <Link className="nav-link" to='/about'>About</Link>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" to='/blog'>Blog</Link>
+                    <Link className="nav-link" to='/note'>Notes</Link>
                   </li>
                   <li className="nav-item">
                     <Link className="nav-link" to='/weather'>Weather</Link>
@@ -29,10 +29,9 @@ export default function Navigate(){
                     <Link className="nav-link" to='/contact'>Contact</Link>
                   </li>
                 </ul>
-                <form className="form-inline">
-                  <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"></input>
-                  <button className="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
-                </form>
+                <div className="form-inline">
+                  <h6 style={{color:'#444'}}>Created with <i style={{color: '#ee0000'}} class="fas fa-heart"></i> to <i style={{color: '#3b5998'}} class="fab fa-react"></i></h6>
+                </div>
               </div>
             </nav>
         </Router>
