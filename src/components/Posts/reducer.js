@@ -9,7 +9,6 @@ export default function reducer(state = initialState, action){
   switch(action.type){
     case 'ADD_POST': return [...state, action.payload];
     case 'DELETE_POST': {
-      console.log(action.payload);
       let newPost = state.filter((item) => {
         if(item.id === parseInt(action.payload.id)){
           return false;

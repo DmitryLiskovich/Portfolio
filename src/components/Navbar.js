@@ -30,7 +30,7 @@ export default function Navigate(){
                   </li>
                 </ul>
                 <div className="form-inline">
-                  <h6 style={{color:'#444'}}>Created with <i style={{color: '#ee0000'}} class="fas fa-heart"></i> to <i style={{color: '#3b5998'}} class="fab fa-react"></i></h6>
+                  <h6 style={{color:'#444'}}>Created with <i style={{color: '#ee0000'}} className="fas fa-heart"></i> to <i style={{color: '#3b5998'}} className="fab fa-react"></i></h6>
                 </div>
               </div>
             </nav>

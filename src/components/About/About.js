@@ -60,57 +60,51 @@ function About () {
     return(
         <div id="about" className='about'>
             <div className='about-under-line-revers'></div>
-            <section>
+            <Container className='about-section-1'>
                 <div>
-                    <Container>
-                        <Row className="justify-content-md-center">
-                            <Col md='5' style={{padding: 0}}>
-                                <div className='about-section-1-content-img'></div>
-                            </Col>
-                            <Col md='7' style={{padding: 0}} className='text-center'>
-                                <div className='about-section-1-content-text'>
-                                    <h2>Who am I?</h2>
-                                    <h3>I AM A <span>FRONT-END</span> DEVELOPER</h3>
-                                    <p>Hello, I'm a Front-End developer from Belarus. Development is my hobby. 
-                                        I can create big projects with HTML5, CSS3, JavaScript, React.js and Node.js. I like what I do. Are you interested?</p>
-                                </div>
-                            </Col>
-                        </Row>
-                    </Container>
+                    <Row className="justify-content-md-center">
+                        <Col md='5' style={{padding: 0}}>
+                            <div className='about-section-1-content-img'></div>
+                        </Col>
+                        <Col md='7' style={{padding: 0}} className='text-center'>
+                            <div className='about-section-1-content-text'>
+                                <h2>Who am I?</h2>
+                                <h3>I AM A <span>FRONT-END</span> DEVELOPER</h3>
+                                <p>Hello, I'm a Front-End developer from Belarus. Development is my hobby. 
+                                    I can create big projects with HTML5, CSS3, JavaScript, React.js and Node.js. I like what I do. Are you interested?</p>
+                            </div>
+                        </Col>
+                    </Row>
                 </div>
-            </section>
-            <section className='about-section-2'>
-                <Container>
-                    <div className='about-section-2-content'>
-                        <div className='about-section-2-text'>
-                            <h2>My Projects</h2>
-                            <Container>
-                            <div>
-                                <div onClick={()=>setIsOpen(!isOpen)} 
-                                className={isOpen ? 'about-section-2-image-active' : 'about-section-2-image'}></div>
-                                <div className={isOpen ? 'about-section-2-image-discryption-active' : 'about-section-2-image-discryption'}>
-                                    <h3>Server for a mobile app on node.js</h3>
-                                    <p>I have experience in creating node.js server for a mobile app created on 
-                                        Xamarin. It was my first project. In this project, I created 
-                                        simple RESTfull service. I like this project, because it helped me
-                                        learn more about node.js.
-                                    </p>
-                                </div>
-                                </div>
-                            </Container>
+            </Container>
+            <Container className='about-section-2'>
+                <div className='about-section-2-content'>
+                    <div className='about-section-2-text'>
+                        <h2>My Projects</h2>
+                        <Container style={{padding: 0}}>
+                        <div>
+                            <div onClick={()=>setIsOpen(!isOpen)} 
+                            className={isOpen ? 'about-section-2-image-active' : 'about-section-2-image'}></div>
+                            <div className={isOpen ? 'about-section-2-image-discryption-active' : 'about-section-2-image-discryption'}>
+                                <h3>Server for a mobile app on node.js</h3>
+                                <p>I have experience in creating node.js server for a mobile app created on 
+                                    Xamarin. It was my first project. In this project, I created 
+                                    simple RESTfull service. I like this project, because it helped me
+                                    learn more about node.js.
+                                </p>
                             </div>
-                            <p className='about-section-2-PS'>P.S. I have only one project now, but you can watch this pretty kitty</p>
-                            <div  className='about-app' >
-                                <a href='myprojects.com'><div className='about-pretty'></div></a>
                             </div>
-                    </div>
-                </Container>
-            </section>
-            <section className='about-section-3'>
-                <Container>
-                    {slider(currentPost)}
-                </Container>
-            </section>
+                        </Container>
+                        </div>
+                        <p className='about-section-2-PS'>P.S. I have only one project now, but you can watch this pretty kitty</p>
+                        <div  className='about-app' >
+                            <a href='myprojects.com'><div className='about-pretty'></div></a>
+                        </div>
+                </div>
+            </Container>
+            <Container className='about-section-3'>
+                {slider(currentPost)}
+            </Container>
         </div>
     );
 }

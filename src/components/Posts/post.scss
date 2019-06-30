@@ -9,3 +9,15 @@
   display: grid;
   grid-template-columns: 30fr 1fr;
 }
+
+.notes-main{
+  @media(min-width: 768px){
+    margin-top: 10px;
+    border-radius: 5px;
+  }
+  @media(max-width: 768px){
+    margin-top: 0px;
+    border-radius: 0px;
+  }
+  background: #fff;
+}

@@ -47,3 +47,18 @@
     }
   }
 }
+
+.contact{
+  margin: auto;
+  padding: 0;
+  @media (min-width: 768px){
+    margin-top: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  @media (max-width: 768px){
+      margin-top: 0px;
+      border-radius: 0px;
+      margin-bottom: 0px;
+  }
+}

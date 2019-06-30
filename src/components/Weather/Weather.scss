@@ -1,0 +1,26 @@
+.weather{
+  padding: 0;
+  @media (min-width: 768px){
+    margin-top: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  @media (max-width: 768px){
+      margin-top: 0px;
+      border-radius: 0px;
+      margin-bottom: 0px;
+  }
+}
+
+.card{
+  @media (min-width: 768px){
+    border-radius: 0.25rem;
+  }
+  @media (max-width: 768px){
+      border-radius: 0px;
+  }
+}
+
+.col .row .container{
+  padding: 0;
+}

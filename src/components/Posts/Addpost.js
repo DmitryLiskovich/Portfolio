@@ -72,8 +72,8 @@ function Postform(props) {
   })
 
   return(
-    <div style={{marginLeft: '10px'}}>
-        <Container className="text-center">
+    <div>
+        <Container className='notes-main text-center'>
           <Form onSubmit={addPost}>
             <FormGroup>
               <br></br>
@@ -91,7 +91,9 @@ function Postform(props) {
               <Button type='submit' color='info'>Add</Button>
             </FormGroup>
           </Form>
+          <br></br>
         </Container>
+        <br></br>
         <Container>
           <Row>
             {notes}

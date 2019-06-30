@@ -5,9 +5,9 @@ import './contact.scss';
 export default function Contact() {
   document.title = 'Contact';
   return(
-    <Container className='text-center' style={{marginTop: '2vh', marginBottom: '2vh'}}>
-      <Row>
-        <Col>
+    <Container className='text-center contact'>
+      <Row style={{margin:0, padding: 0}}>
+        <Col style={{margin:0, padding: 0}}>
           <Card>
             <div className="card-img-top image"></div>
             <CardBody>
