@@ -28,6 +28,9 @@ export default function Navigate(){
                   <li className="nav-item">
                     <Link className="nav-link" to='/contact'>Contact</Link>
                   </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" to='/task'>Tasks</Link>
+                  </li>
                 </ul>
                 <div className="form-inline">
                   <h6 style={{color:'#444'}}>Created with <i style={{color: '#ee0000'}} className="fas fa-heart"></i> to <i style={{color: '#3b5998'}} className="fab fa-react"></i></h6>

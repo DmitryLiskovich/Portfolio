@@ -15,7 +15,7 @@ export default function Contact() {
                 <FormGroup>
                   <label>Enter your message</label>
                   <br></br>
-                  <Input type='textarea' className="form-control z-depth-1" id="exampleFormControlTextarea6" rows="3" placeholder="Write your message"></Input>
+                  <Input type='textarea' className="form-control z-depth-1" id="exampleFormControlTextarea6" rows="3" placeholder="Write your message: Don't work :("></Input>
                   <br></br>
                   <Button type="submit" color='info'>Send</Button>
                   <br></br>

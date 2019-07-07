@@ -63,7 +63,7 @@ export default function (){
   </CardBody>
   
   return(
-    <Container className='weather' style={{margin:0, padding: 0}}>
+    <Container className='weather'>
       <Row style={{margin:0, padding: 0}}>
         <Col xs={12} style={{margin:0, padding: 0}}>
           <Card className='text-center'>
@@ -77,7 +77,7 @@ export default function (){
                 <CardBody>
                   <Form onSubmit={changeWeather}>
                     <FormGroup>
-                      <Label>Enter City</Label>
+                      <Label>Enter a city name</Label>
                       <Input type='text' id='city' placeholder='London' style={{textAlign: 'left'}}></Input>
                       <Button type='submit' color='info' style={{marginTop: 10+'px'}}> Submit </Button>
                     </FormGroup>

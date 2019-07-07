@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import Navigate from './components/Navbar'
 import { HashRouter, Route, Redirect, Switch } from 'react-router-dom';
 import About  from './components/About/About';
@@ -7,6 +6,7 @@ import Notfount from './components/Notfound/Notfound'
 import Weather from './components/Weather/Weather' 
 import Posts from './components/Posts/Posts'
 import Contact from './components/Contact/Contact'
+import TaskPage from './components/Tasks/TaskPage';
 
 export default function App({match}) {
   return(
@@ -18,6 +18,7 @@ export default function App({match}) {
           <Route path='/note' component={Posts}></Route>
           <Route path='/about' component={About}></Route>
           <Route path='/contact' component={Contact}></Route>
+          <Route path='/task' component={TaskPage}></Route>
           <Route path='/notfound' component={Notfount}></Route>
           <Redirect from='/' to='/about'></Redirect>
         </Switch>

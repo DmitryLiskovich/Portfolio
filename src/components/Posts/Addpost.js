@@ -73,32 +73,32 @@ function Postform(props) {
 
   return(
     <div>
-        <Container className='notes-main text-center'>
-          <Form onSubmit={addPost}>
-            <FormGroup>
-              <br></br>
-              <h1>You can create your notes</h1>
-              <br></br>
-              <br></br>
-              <Label>Title</Label>
-              <Input required type='text' name='title' id='title' placeholder='Title'></Input>
-              <FormFeedback>Please, write your title</FormFeedback>
-              <br></br>
-              <Label>Note</Label>
-              <Input required type='textarea' name='note' id='note' placeholder='Note'></Input>
-              <FormFeedback>Please, write your note</FormFeedback>
-              <br></br>
-              <Button type='submit' color='info'>Add</Button>
-            </FormGroup>
-          </Form>
-          <br></br>
-        </Container>
+      <Container className='notes-main text-center'>
+        <Form onSubmit={addPost}>
+          <FormGroup>
+            <br></br>
+            <h1>You can create your notes</h1>
+            <br></br>
+            <br></br>
+            <Label>Title</Label>
+            <Input required type='text' name='title' id='title' placeholder='Title'></Input>
+            <FormFeedback>Please, write your title</FormFeedback>
+            <br></br>
+            <Label>Note</Label>
+            <Input required type='textarea' name='note' id='note' placeholder='Note'></Input>
+            <FormFeedback>Please, write your note</FormFeedback>
+            <br></br>
+            <Button type='submit' color='info'>Add</Button>
+          </FormGroup>
+        </Form>
         <br></br>
-        <Container>
-          <Row>
-            {notes}
-          </Row>
-        </Container>
+      </Container>
+      <br></br>
+      <Container>
+        <Row>
+          {notes}
+        </Row>
+      </Container>
     </div>
   )
 }
