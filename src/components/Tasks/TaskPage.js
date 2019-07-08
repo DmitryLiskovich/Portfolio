@@ -1,11 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { Container, Row, Form } from 'reactstrap';
 import Droptable from './Droptable';
 import AddTask from './FormTask';
 import './task.scss'
-
-let postsCounter = 0;
 
 export default function TaskPage() {
 
@@ -15,6 +13,10 @@ export default function TaskPage() {
       result.splice(endIndex, 0, removed);
       return result;
   };
+
+  if(!localStorage.getItem('counter')){
+    localStorage.setItem('counter', '0');
+  }
 
   const move = (source, destination, droppableSource, droppableDestination) => {
       const sourceClone = Array.from(source);
@@ -36,9 +38,13 @@ export default function TaskPage() {
     onHold: [],
     inProcess: [],
     pendingPR: [],
-
-
 });
+
+if(!localStorage.getItem('data')){
+  localStorage.setItem('data', JSON.stringify(state));
+}
+
+console.log(JSON.parse(localStorage.getItem('data')));
 
   const id2List = {
       droppable: 'toDo',
@@ -46,6 +52,10 @@ export default function TaskPage() {
       droppable3: 'inProcess',
       droppable4: 'pendingPR',
   };
+
+  useEffect(()=>{
+    setState(JSON.parse(localStorage.getItem('data')));
+  }, []);
 
   function getList(id){ 
       return state[id2List[id]];
@@ -77,8 +87,8 @@ export default function TaskPage() {
           if (source.droppableId === 'droppable4' ) {
               stateDrop = { ...state, pendingPR: items };
           }
-
-          setState(stateDrop);
+          localStorage.setItem('data', JSON.stringify(stateDrop));
+          setState(JSON.parse(localStorage.getItem('data')));
       } else {
           const result = move(
               getList(source.droppableId),
@@ -86,24 +96,26 @@ export default function TaskPage() {
               source,
               destination
           );
-
-          setState({
-              toDo: result.droppable,
-              onHold: result.droppable2,
-              inProcess: result.droppable3,
-              pendingPR: result.droppable4,
-          });
+          const newStates = {
+            toDo: result.droppable,
+            onHold: result.droppable2,
+            inProcess: result.droppable3,
+            pendingPR: result.droppable4,
+          };
+          localStorage.setItem('data', JSON.stringify(newStates));
+          setState(JSON.parse(localStorage.getItem('data')));
       }
   };
 
   function addNewTask(event){
     event.preventDefault();
+    let counter = parseInt(localStorage.getItem('counter'));
     if(!event.target[0].value || !event.target[1].value ) return;
-    const newId = 'task-' + postsCounter++;
+    const newId = 'task-' + counter++;
+    localStorage.setItem('counter', JSON.stringify(counter));
     const newItems = [...state.toDo, {id: newId, content: {title: event.target[0].value, text: event.target[1].value}}];
-    setState({
-      ...state, toDo: newItems
-    })
+    localStorage.setItem('data', JSON.stringify({...state, toDo: newItems}));
+    setState(JSON.parse(localStorage.getItem('data')));
   }
 
   return (
