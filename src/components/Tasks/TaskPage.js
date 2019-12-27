@@ -44,8 +44,6 @@ if(!localStorage.getItem('data')){
   localStorage.setItem('data', JSON.stringify(state));
 }
 
-console.log(JSON.parse(localStorage.getItem('data')));
-
   const id2List = {
       droppable: 'toDo',
       droppable2: 'onHold',
@@ -75,7 +73,6 @@ console.log(JSON.parse(localStorage.getItem('data')));
               source.index,
               destination.index
           );
-          console.log(destination.droppableId);
 
           let stateDrop = {...state ,toDo: items};
           if (source.droppableId === 'droppable2' ) {
@@ -128,10 +125,10 @@ console.log(JSON.parse(localStorage.getItem('data')));
         <DragDropContext onDragEnd={onDragEnd}>
           <Container>
             <Row>
-              <Droptable title='To Do' state={state.toDo} dropId ={'droppable'}></Droptable>
-              <Droptable title='On hold' state={state.onHold} dropId ={'droppable2'}></Droptable>
-              <Droptable title='In process' state={state.inProcess} dropId ={'droppable3'}></Droptable>
-              <Droptable title='Pending PR' state={state.pendingPR} dropId ={'droppable4'}></Droptable>
+              <Droptable title='To Do' zIndex={1} state={state.toDo} dropId ={'droppable'}></Droptable>
+              <Droptable title='On hold' zIndex={2} state={state.onHold} dropId ={'droppable2'}></Droptable>
+              <Droptable title='In process' zIndex={3} state={state.inProcess} dropId ={'droppable3'}></Droptable>
+              <Droptable title='Pending PR' zIndex={4} state={state.pendingPR} dropId ={'droppable4'}></Droptable>
             </Row>
           </Container>
         </DragDropContext>

@@ -4,7 +4,7 @@ import './navbar.css'
 
 export default function Navigate(){
     return (
-      <div>
+      <div className="nav-position">
         <Router>
             <nav className="navbar navbar-expand-lg navbar-light" style={{background: '#e3f2fd', zIndex: 0}}>
               <div className='react-sign'>

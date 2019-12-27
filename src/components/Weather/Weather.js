@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import { Container, Form, Button, Input, Label, Card, CardImg, CardBody, Row, Col, ListGroup, ListGroupItem, FormGroup } from 'reactstrap';
 import axios from 'axios';
 import './Weather.scss'
+import Spinner from '../Spinner/Spinner';
 
 export default function (){
+
+	const [spinner, setSpinner] = useState(false);
 
   document.title = 'Weather';
   
@@ -28,19 +31,18 @@ export default function (){
 
   function changeWeather (event) {
     event.preventDefault();
-    event.stopPropagation();
+	event.stopPropagation();
     (async function (){
       const city = document.getElementById('city').value;
       if(!city){
         alert('Enter city name');
         return 0;
-      }
+	  }
+	  setSpinner(true);
       const weatherFromSite = await axios(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=fec8b249edbf6232ae4e5957bd8e7ecf&units=metric`);
-      console.log(weatherFromSite.data.weather[0].id);
       let weatherIcon = getIconFromId(parseInt(weatherFromSite.data.weather[0].id));
       weatherFromSite.data.dt < weatherFromSite.data.sys.sunrise || weatherFromSite.data.dt > weatherFromSite.data.sys.sunset ? weatherIcon += 'n' : weatherIcon += 'd';
       weatherIcon = `http://openweathermap.org/img/w/${weatherIcon}.png`;
-      console.log(weatherIcon);
       setWeather({ 
         city: weatherFromSite.data.name,
         temperature: weatherFromSite.data.main.temp,
@@ -48,7 +50,8 @@ export default function (){
         pressure: weatherFromSite.data.main.pressure,
         sky: weatherFromSite.data.weather[0].description,
         icon: weatherIcon,
-      });
+	  });
+		setSpinner(false);	  
     })();
   }
   const weatherTab = 
@@ -63,13 +66,14 @@ export default function (){
   </CardBody>
   
   return(
-    <Container className='weather'>
+    <Container className='weather' style={{position: 'relative'}}>
+		{spinner ? <Spinner/> : ''}
       <Row style={{margin:0, padding: 0}}>
         <Col xs={12} style={{margin:0, padding: 0}}>
           <Card className='text-center'>
             <Row style={{margin:0, padding: 0}}>
               <Col xs={12} style={{margin:0, padding: 0}}>
-                <CardImg top width='40%' src='https://source.unsplash.com/1600x900/?nature,weather' ></CardImg>
+				<div className="random-image"/>
               </Col>
             </Row>
             <Row style={{margin:0, padding: 0}}>
