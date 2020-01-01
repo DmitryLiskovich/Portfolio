@@ -1,120 +1,107 @@
 import React, {useRef, useEffect, useState, createElement} from 'react';
 import io from 'socket.io-client';
 import Peer from 'peerjs';
+import './myChat.scss'
+import { object } from 'prop-types';
 
-// const socket = io.connect('https://rocky-reef-68087.herokuapp.com');
-const socket = io.connect('http://localhost:8080');
+const callOptions={config: {'iceServers': [
+	{ url: 'stun:stun.l.google.com:19302' },
+]}
+}; 
 
-const server = {
-	iceServers: [
-		{url: "stun:23.21.150.121"},
-		{url: "stun:stun.l.google.com:19302"},
-		{url: "turn:numb.viagenie.ca", credential: "your password goes here", username: "example@example.com"}
-	]
-};
-const options = {
-	optional: [
-		{DtlsSrtpKeyAgreement: true},
-		{RtpDataChannels: true}
-	]
-};
-
-const PeerConnection = window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
-const SessionDescription = window.mozRTCSessionDescription || window.RTCSessionDescription;
-const IceCandidate = window.mozRTCIceCandidate || window.RTCIceCandidate;
 navigator.getUserMedia = ( navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
-let pc = new PeerConnection(server, options);
-let newPeers = {};
 
-const peer = new Peer()
+let peer;
+let peercall;
 
-export default function Chat() {
+export default function Chat(props) {
 	const [catchIt, setCatchIt] = useState(false);
+	const {room, name} = props.user;
+	const socket = props.socket;
 	const videos = useRef(null);
+	const video = useRef(null);
+	const [peers, setPeers] = useState({});
+	let callingUser;
 
 	useEffect(()=>{
-		socket.on('message', async (data)=>{
-			if(data.type === 'offer'){
-				await pc.setRemoteDescription(data);
-				setCatchIt(true);
-			}
-			if(data.type === 'candidate'){
-				const condidate = new IceCandidate({sdpMLineIndex:data.label, candidate:data.candidate});
-				pc.addIceCandidate(condidate);
-			}
-			if(data.type === 'answer'){
-				newPeers[data] = {
-					pc: new PeerConnection(server, options)
-				}
-				newPeers[data].pc.setRemoteDescription(data);
-				newPeers[data].pc.ontrack = e => {
-					const newVid = document.createElement('video');
-					newVid.setAttribute('autoplay', true);
-					newVid.srcObject = e.streams[0];
-					videos.current.append(newVid);
-				};
-				newPeers[data].pc.onicecandidate = (event)=>{
-					if (event.candidate) {
-						socket.send({type: 'candidate',                        
-							label: event.candidate.sdpMLineIndex,                     
-							id: event.candidate.sdpMid,                        
-							candidate: event.candidate.candidate});
-					} else {
-					}
-				}
-				console.log(newPeers[data]);
+		peer = new Peer(callOptions)
 
-			}
+		peer.on('open', function(peerID) {
+			socket.send(peerID);
+		});
+
+		socket.on('message', async (data)=>{
+			delete data[name];
+			setPeers(data);
 		})
 
+		peer.on('call', function(call) {
+			peercall=call;
+			setCatchIt(true);
+		});
+
+}, []);
+
+	function callAnswer(callingPeer){
 		navigator.getUserMedia({video: true, audio: false}, getStream, error);
 
 		async function getStream(stream){
-			await pc.addStream(stream);
-			pc.ontrack = e => {
-				const newVid = document.createElement('video');
-				newVid.setAttribute('autoplay', true);
-				newVid.srcObject = e.streams[0];
-				videos.current.append(newVid);
-			};
-			pc.onicecandidate = (event)=>{
-				if (event.candidate) {
-					socket.send({type: 'candidate',                        
-						label: event.candidate.sdpMLineIndex,                     
-						id: event.candidate.sdpMid,                        
-						candidate: event.candidate.candidate});
-				} else {
-				}
+			if(!catchIt){
+				peercall = peer.call(peers[callingPeer], stream);
+				peercall.on('stream', function (stream) {
+					setVideo(stream);
+				});
+				video.current.srcObject = stream;
+			}else{
+				peercall.answer(stream);
+				setTimeout(()=>setVideo(peercall.remoteStream), 1000);
+				video.current.srcObject = stream;
+				setCatchIt(false);
 			}
 		}
-
-	}, [])
-
-	function call(){
-		pc.createOffer(function(offer) {
-			pc.setLocalDescription(offer, function() {
-				socket.send(offer);
-			}, error);
-		}, error);
-	}
-	function submit(){
-		pc.createAnswer(function(answer) {
-			pc.setLocalDescription(answer, ()=>{
-				socket.send(answer);
-			})
-		}, error);
 	}
 
-	function error(err){
-		console.log(err);
+
+
+	function setVideo(stream){
+		const video = document.createElement('video');
+		video.srcObject = stream;
+		video.className = 'video';
+		video.play();
+		videos.current.append(video);
+	}
+
+	function error(e){
+		console.log(e);
+	}
+
+	function checkUserToCall(e){
+		if(e.target.tagName === 'LI'){
+			callAnswer(e.target.innerText);
+		}
 	}
 
 	return (
 		<div className="App">
-			<div ref={videos}></div>
-			<button onClick={call}>Call</button>
-			{catchIt && <button onClick={submit}>Submit</button>}
-			<button onClick={()=>pc.close()}>End Call</button>
+			<div className='users-list'>
+				<ul onClick={checkUserToCall}>
+					<li className='header'><h1>Users List</h1></li>
+					{Object.keys(peers).map((item, index)=> (<li key={index}>{item}</li>))}
+				</ul>
+			</div>
+			<div className='video-chat'>
+				<div className='chat-section'>
+					<div className='my_wrapp'>
+						<video className='my' ref={video} autoPlay></video>
+					</div>
+					<div className='chat' ref={videos}></div>
+				</div>
+				<div>
+					<div onClick={callAnswer} className={`calling ${catchIt ? 'pulse-button' : ''}`}>
+						<i className="fas fa-phone"></i>
+					</div>
+				</div>
+			</div>
 		</div>
 	);
 }
