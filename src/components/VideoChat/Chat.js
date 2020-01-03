@@ -1,6 +1,7 @@
 import React, {useRef, useEffect, useState} from 'react';
 import Video from './Video';
 import io from 'socket.io-client';
+import './login.scss'
 
 let socket;
 
@@ -36,12 +37,19 @@ export default function Chat() {
 
 	if(!state){
 		return(
-			<form onSubmit={submit}>
-				<input required type='text' name='room' placeholder='room'></input>
-				<input required type='text' name='name' placeholder='name'></input>
-				<input type='submit'></input>
-				{!userState && <div>User already in this room</div>}
-			</form>
+			<div className='login-wrap'>
+				<form className='user-connection' onSubmit={submit}>
+					<h2 className="form-signin-heading">Please enter room and user name</h2>
+					{/* <input type='' className="form-control" name="room" placeholder="ROOM" required /> */}
+					<select type='' className="form-control" name="room" required>
+						<option>First room</option>
+						<option>Second room</option>
+					</select>
+					<input type="text" className="form-control" name="name" placeholder="USER NAME" required/>      
+					{!userState && <div className='alert'>User already in this room</div>}
+					<button className="btn btn-lg btn-primary btn-block" type="submit">Enter</button>   
+				</form>
+			</div>
 		)
 	}
 

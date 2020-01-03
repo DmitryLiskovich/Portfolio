@@ -1,10 +1,9 @@
 .my{
   height: 200px;
-  position: absolute;
   &_wrapp{
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
+    position: absolute;
+    top: 56px;
+    right: 0;
   }
   @media screen and (max-width: 991px){
     display: none;
@@ -12,22 +11,46 @@
 }
 
 .users-list{
-  width: 15%;
+
+  width: 25%;
   @media screen and (max-width: 991px){
     width: 100%;
+    &.hidden{
+      display: none;
+    }
   }
+}
+
+.close-button{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
 }
 
 .users-list ul{
   height: 100%;
   width: 100%;
-  background: #eee;
+  background: #00000033;
   margin: 0;
   padding: 0;
+
+  .user-name{
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    background: #6b8e23;
+    margin-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .header{
-    background: #eee;
     border: none;
-    border-bottom: 1px solid #999;
+    border-bottom: 3px solid #00000033;
     h1{
       font-size: 18px;
       margin: 0;
@@ -38,27 +61,33 @@
     cursor: unset;
     padding-left: 0;
     &:hover{
-      background: #eee;
+      background: #00000000;
     }
   }
   li{
+    &.active{
+      background: #00000033;
+    }
+    p{
+      margin: 0;
+      flex-grow: 1;
+    }
+    color: #fff;
     padding-left: 15px;
+    padding-right: 15px;
     list-style: none;
     height: 60px;
     cursor: pointer;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
-    border: 1px #888 solid;
-    background: #fff;
+    background: transparent;
     transition: ease-in-out .3s background;
     &:hover{
-      background: #eee;
+      background: #00000033;
     }
   }
 }
-
-
 
 .chat{
   display: flex;
@@ -66,6 +95,7 @@
   align-items: center;
   height: 100%;
   video{
+    padding: 5px;
     height: 100%;
     @media screen and (max-width: 767.98px) {
       width: 100%;
@@ -74,9 +104,17 @@
   }
 }
 
+.button{
+  display: flex;
+}
+
 .chat-section{
   width: 100%;
   height: 100%;
+  @media screen and (max-width: 767.98px) {
+    height: auto;
+    max-height: calc( 100vh - 56px);
+  }
 }
 
 .App{
@@ -86,8 +124,8 @@
 }
 
 .video-chat{
-  background: #fff;
-  padding: 10px;
+  background: #00000033;
+  border-left: 3px solid #00000033;
   height: 100%;
   width: 85%;
   display: flex;
@@ -98,21 +136,33 @@
   @media screen and (max-width: 991px){
     position: absolute;
     width: 100%;
+    justify-content: flex-start;
     height: calc(100vh - 56px);
+    &.hidden{
+      display: none;
+    }
   }
 }
 
+.reject{
+  background: #d8183b !important;
+}
+
 .calling{
-  height: 60px;
-  width: 60px;
+  cursor: pointer;
+  height: 30px;
+  width: 30px;
   border-radius: 50%;
   background: #6b8e23;
   display: flex;
   justify-content: center;
   align-items: center;
   color: #fff;
-  margin-bottom: 20px;
-  margin-top: 10px;
+  transition: ease-in-out 0.5s background;
+  margin-right: 5px;
+  &:hover{
+    background: #00B140;
+  }
 }
 
 .pulse-button{
