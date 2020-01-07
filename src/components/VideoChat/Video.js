@@ -1,7 +1,9 @@
 import React, {useRef, useEffect, useState, createElement} from 'react';
 import Peer from 'peerjs';
+import axios from 'axios';
 import './myChat.scss'
 import TextChat from './TextChat';
+import Modal from './Modal/Modal';
 
 const callOptions={config: {'iceServers': [
 	{ url: 'stun:stun.l.google.com:19302' },
@@ -10,8 +12,16 @@ const callOptions={config: {'iceServers': [
 
 navigator.getUserMedia = ( navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
 
+function wakeUp(){
+	// axios.get('https://rocky-reef-68087.herokuapp.com/email');
+	axios.get('http://localhost:8080/email');
+}
+let streamCache;
+let callingUser;
+setInterval(wakeUp, 300000);
+
 export default function Chat(props) {
-	const [state, setState] = useState({catchIt: false, calling: false, chatState: false, peer: new Peer(callOptions), localStream: null});
+	const [state, setState] = useState({catchIt: false, calling: false, chatState: false, peer: new Peer(callOptions), localStream: null, peercall: null, rejected: false});
 	const [videoStream, setVideoStream] = useState([]);
 	const [selectedUser, setSelectedUser] = useState();
 	const video = useRef(null);
@@ -24,13 +34,25 @@ export default function Chat(props) {
 			socket.send(peerID);
 		});
 
+		state.peer.on('connection', (user)=>{
+			user.on('data', (data)=>{
+				setState((state)=> ({...state, calling: true, catchIt: true, peercall: user}));
+			});
+			setState((state)=> ({...state, peercall: user}));
+		})
+
 		socket.on('message', async (data)=>{
 			delete data[name];
 			setPeers(data);
 		})
 
 		state.peer.on('call', function(call) {
-			setState((state)=> ({...state, calling: true, catchIt: true, peer: call}));
+			navigator.getUserMedia({video: true, audio: true}, (stream)=>{
+				call.answer(stream);
+				call.on('stream', (remoteStream)=> setRemoteStream(remoteStream, stream))
+				setState((state)=> ({...state, catchIt: false}))
+				setState((state)=> ({...state, calling: true}));
+			}, error);
 		});
 }, []);
 
@@ -43,37 +65,48 @@ useEffect(()=>{
 }, [selectedUser]);
 
 	function callAnswer(e){
-		const callingUser = e.currentTarget.parentElement.parentElement.getAttribute('data-number');
-		let streamCache;
-		navigator.getUserMedia({video: true, audio: true}, getStream, error);
-		async function getStream(stream){
-			if(!state.catchIt){
-				let peer = state.peer.call(callingUser, stream);
-				peer.on('stream', setRemoteStream);
-				setState((state)=> ({...state, calling: true}));
-			}else{
-				state.peer.answer(stream);
-				state.peer.on('stream', setRemoteStream)
-				setState((state)=> ({...state, catchIt: false}))
-			}
-
-			function setRemoteStream(streamRemote){
-				if(streamRemote !== streamCache){
-					setVideoStream((state)=> ([...state, streamRemote]));
-					streamCache = streamRemote;
-					stream.getAudioTracks().enabled = false;
-					video.current.srcObject = stream;
+		callingUser = e.currentTarget.parentElement.parentElement.getAttribute('data-number');
+		const connect = state.peer.connect(callingUser);
+		connect.on('open', ()=>{
+			connect.on('data', (data)=>{
+				if(data !== 'rejected'){
+					navigator.getUserMedia({video: true, audio: true}, (stream)=>{
+						let peer = state.peer.call(callingUser, stream);
+						peer.on('stream', (remoteStream)=> setRemoteStream(remoteStream, stream))
+						setState((state)=> ({...state, calling: true}));
+					}, error);
+				}else if(data === 'rejected'){
+					setState((state)=> ({...state, rejected: true}))
+					setTimeout(()=>{
+						setState((state)=> ({...state, rejected: false}))
+					}, 2000);
 				}
-			}
+			});
+			connect.send('request')
+		});
+
+	}
+	function setRemoteStream(streamRemote, stream){
+		stream.getAudioTracks().enabled = false;
+		video.current.srcObject = stream;
+		if(streamRemote !== streamCache){
+			setVideoStream((state)=> ([...state, streamRemote]));
+			streamCache = streamRemote;
 		}
 	}
 
 	function reject(){
-		state.peer.close();
+		state.peercall.send('rejected');
+		setState((state)=> ({...state, calling: false, catchIt: false, peercall: null}));
+	}
+
+	function confirm(){
+		state.peercall.send('accepted');
+		setState((state)=> ({...state, calling: false, catchIt: false, peercall: null}));
 	}
 
 	function error(e){
-		console.log(e);
+		alert(`Ошибка: ${e}`)
 	}
 
 	function checkUserToCall(e){
@@ -88,21 +121,19 @@ useEffect(()=>{
 		}
 	}
 
-	console.log(videoStream);
-
 	return (
 		<div className="App">
-			
+			{state.rejected && <Modal></Modal>}
 			<div className={`users-list ${state.chatState && 'hidden'}`}>
 				<ul onClick={checkUserToCall}>
 					<li className='header'><h1>Users List</h1></li>
 					{Object.keys(peers).map((item, index)=> {
 						return(
 							<li data-name={item} className={`${selectedUser && selectedUser[item] && 'active'}`} data-number={peers[item]} key={index}><div className='user-name'>{item.slice(0, 2)}</div><p>{item}</p><div className="button">
-									<div onClick={callAnswer} className={`calling ${state.catchIt ? 'pulse-button' : ''}`}>
+									<div onClick={state.catchIt ? confirm : callAnswer} className={`calling ${state.catchIt && state.peercall.peer === peers[item] ? 'pulse-button' : ''}`}>
 										<i className="fas fa-phone"></i>
 									</div>
-									{state.catchIt && (<div onClick={reject} className={`reject calling`}>
+									{state.catchIt && state.peercall.peer === peers[item] && (<div onClick={reject} className={`reject calling`}>
 										<i className="fas fa-phone-slash"></i>
 									</div>)}
 								</div>

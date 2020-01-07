@@ -1,0 +1,38 @@
+.modal-wrap{
+  display: flex;
+  position: absolute;
+  top: -66px;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%);
+  width: 100%;
+  max-height: 66px;
+  z-index: 99999;
+  animation: ease-in-out 2s slide;
+}
+
+.modal{
+  position: relative;
+  color: #fff;
+  font-size: 16px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes slide{
+  0%{
+    top: -66px;
+  }
+  25%{
+    top: 0;
+  }
+  75%{
+    top: 0;
+  }
+  100%{
+    top: -66px;
+  }
+}

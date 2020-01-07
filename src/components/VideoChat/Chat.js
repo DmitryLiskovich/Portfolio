@@ -3,6 +3,8 @@ import Video from './Video';
 import io from 'socket.io-client';
 import './login.scss'
 
+document.title = 'Chat';
+
 let socket;
 
 if(window.location.origin === "https://dmitryliskovich.github.io"){
@@ -10,7 +12,6 @@ if(window.location.origin === "https://dmitryliskovich.github.io"){
 }else{
 	socket = io.connect('http://localhost:8080');
 }
-
 
 
 export default function Chat() {
@@ -39,7 +40,7 @@ export default function Chat() {
 		return(
 			<div className='login-wrap'>
 				<form className='user-connection' onSubmit={submit}>
-					<h2 className="form-signin-heading">Please enter room and user name</h2>
+					<h2 className="form-signin-heading">Please select room and enter your nickname</h2>
 					{/* <input type='' className="form-control" name="room" placeholder="ROOM" required /> */}
 					<select type='' className="form-control" name="room" required>
 						<option>First room</option>
