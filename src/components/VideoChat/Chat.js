@@ -32,7 +32,6 @@ export default function Chat() {
 	const video = useRef(null);
 
 	pc.ontrack = e =>{
-		console.log(e);
 		video.current.srcObject = e.streams[0];
 	}
 
@@ -53,7 +52,6 @@ export default function Chat() {
 				pc.setRemoteDescription(new SessionDescription(message));
 			} 
 			else if (message.type === 'candidate') {
-
 				const candidate = new IceCandidate({sdpMLineIndex: message.label, candidate: message.candidate});
 				pc.addIceCandidate(candidate);
 			}
@@ -75,6 +73,7 @@ export default function Chat() {
 	}
 	
 	function gotIceCandidate(event){
+		console.log(event)
 		if (event.candidate) {
 			sendMessage({
 				type: 'candidate',
@@ -99,28 +98,6 @@ export default function Chat() {
 			{ 'mandatory': { 'OfferToReceiveAudio': true, 'OfferToReceiveVideo': true } }
 		);
 	}
-
-	// const peers = {};
-
-	// function createNewConnection(data){
-
-	// 	peers[data] = {
-	// 		candidateCache: []
-	// 	};
-
-	// 	const pc = new PeerConnection(server, options);
-	// 	peers[data].connection = pc;
-
-	// 	const channel = pc.createDataChannel("mychannel", {});
-	// 	channel.owner = data;
-	// 	peers[data].channel = channel;
-
-	// 	bindEvents(channel);
-
-	// 	pc.createOffer(function(offer) {
-	// 		pc.setLocalDescription(offer);
-	// 	});
-	// }
 
 	return (
 		<div className="App">
