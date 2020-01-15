@@ -3,8 +3,6 @@ import Video from './Video';
 import io from 'socket.io-client';
 import './login.scss'
 
-document.title = 'Chat';
-
 let socket;
 
 	socket = io.connect('https://rocky-reef-68087.herokuapp.com');
@@ -27,6 +25,7 @@ export default function Chat() {
 	}
 
 	useEffect(()=>{
+		document.title = 'Chat';
 		socket.on('message', (data)=>{
 			if(data.type === 'err'){
 				setState(false);

@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useState, createElement} from 'react';
+import React, {useRef, useEffect, useState, force} from 'react';
 import Peer from 'peerjs';
 import axios from 'axios';
 import './myChat.scss'
@@ -8,7 +8,7 @@ import Modal from './Modal/Modal';
 const callOptions={config: {'iceServers': [
 	{ url: 'stun:stun.l.google.com:19302' },
 ]}
-}; 
+};
 
 navigator.getUserMedia = ( navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
 
@@ -49,12 +49,18 @@ export default function Chat(props) {
 		state.peer.on('call', function(call) {
 			navigator.getUserMedia({video: true, audio: true}, (stream)=>{
 				call.answer(stream);
+				callingUser = call.peer;
+				call.on('close', (e)=>{
+					console.log(stream)
+					stream.getTracks().forEach(track => track.stop());
+					setState((state)=> ({...state, calling: false}));
+				})
 				call.on('stream', (remoteStream)=> setRemoteStream(remoteStream, stream))
-				setState((state)=> ({...state, catchIt: false}))
-				setState((state)=> ({...state, calling: true}));
+				setState((state)=> ({...state, catchIt: false, calling: true, peercall: call}))
 			}, error);
 		});
 }, []);
+
 
 useEffect(()=>{
 	if(selectedUser){
@@ -69,11 +75,16 @@ useEffect(()=>{
 		const connect = state.peer.connect(callingUser);
 		connect.on('open', ()=>{
 			connect.on('data', (data)=>{
+				console.log(data);
 				if(data !== 'rejected'){
 					navigator.getUserMedia({video: true, audio: true}, (stream)=>{
 						let peer = state.peer.call(callingUser, stream);
 						peer.on('stream', (remoteStream)=> setRemoteStream(remoteStream, stream))
-						setState((state)=> ({...state, calling: true, chatState: true}));
+						peer.on('close', (e)=>{
+							stream.getTracks().forEach(track => track.stop());
+							setState((state)=> ({...state, calling: false}));
+						})
+						setState((state)=> ({...state, calling: true, chatState: true, peercall: peer}));
 					}, error);
 				}else if(data === 'rejected'){
 					setState((state)=> ({...state, rejected: true}))
@@ -82,7 +93,6 @@ useEffect(()=>{
 					}, 2000);
 				}
 			});
-			console.log('data');
 			connect.send('request')
 		});
 
@@ -143,15 +153,19 @@ useEffect(()=>{
 					}
 				</ul>
 			</div>
-			<div className={`video-chat ${!state.chatState && 'hidden'}`}>
-				<Video></Video> 
-				{!state.calling &&
-				<>
-					<i onClick={()=>setState((state)=> ({...state, chatState: false}))} className="fas fa-times close-button"></i>
+			{state.calling &&
+				<div className={`video-chat ${!state.chatState && 'hidden'}`}>
+					<Video></Video> 
+				</div>
+			}
+			{!state.calling &&
+			<>
+				<i onClick={()=>setState((state)=> ({...state, chatState: false}))} className="fas fa-times close-button"></i>
+				<div className={`text-chat ${!state.chatState && 'hidden'}`}>
 					<TextChat selectedUser={name} socket={socket}></TextChat>
-				</>
-				}
-			</div>
+				</div>
+			</>
+			}
 		</div>
 	);
 
@@ -159,11 +173,18 @@ useEffect(()=>{
 		return(
 			<>
 				<div className="chat-section">
-					<div className='my_wrapp'>
-						<video muted className='my' ref={video} autoPlay></video>
-					</div>
-					<div className='chat'>
-						{videoStream.map((item, index)=> (item.active ? <video className="video" autoPlay key={index} ref={currentVideoEl => currentVideoEl ? currentVideoEl.srcObject = item : ''}></video> : ''))}
+					<div className='chat-wrap'>
+						<div className='my_wrapp'>
+							<video muted className='my' ref={video} autoPlay></video>
+						</div>
+						<div className='chat'>
+							{videoStream.map((item, index)=> (item.active ? <video className="video" autoPlay key={index} ref={currentVideoEl => currentVideoEl ? currentVideoEl.srcObject = item : ''}></video> : ''))}
+						</div>
+						<div className='button-section'>
+							<div onClick={()=> state.peercall ? state.peercall.close() : state.peer.close()} className="reject calling"><i className="fas fa-phone-slash"></i></div>
+							<i className="fas fa-microphone"></i>
+							<i className="fas fa-volume-up"></i>
+						</div>
 					</div>
 				</div>
 			</>
