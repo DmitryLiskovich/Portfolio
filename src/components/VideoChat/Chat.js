@@ -7,45 +7,15 @@ document.title = 'Chat';
 
 let socket;
 
-if(window.location.origin === "https://dmitryliskovich.github.io"){
 	socket = io.connect('https://rocky-reef-68087.herokuapp.com');
-}else{
-	socket = io.connect('http://localhost:8080');
-}
+// if(window.location.origin === "https://dmitryliskovich.github.io"){
+// 	socket = io.connect('https://rocky-reef-68087.herokuapp.com');
+// }else{
+// 	socket = io.connect('http://localhost:8080');
+// }
 
 
 export default function Chat() {
-<<<<<<< HEAD
-	const userId = Math.random()*10000000000000000;
-	const users = [];
-	const pc = new PeerConnection(server, options);
-	
-	const video = useRef(null);
-
-	pc.ontrack = e =>{
-		video.current.srcObject = e.streams[0];
-	}
-
-	navigator.getUserMedia({ audio: true, video: true }, gotStream, streamError);
-	
-	function gotStream(stream) {
-		pc.addStream(stream);
-		pc.onicecandidate = gotIceCandidate;
-	}
-	
-	useEffect(() => {
-		socket.on('message', function (message, user){
-			if (message.type === 'offer') {
-				pc.setRemoteDescription(new SessionDescription(message));
-				createAnswer();
-			} 
-			else if (message.type === 'answer') {
-				pc.setRemoteDescription(new SessionDescription(message));
-			} 
-			else if (message.type === 'candidate') {
-				const candidate = new IceCandidate({sdpMLineIndex: message.label, candidate: message.candidate});
-				pc.addIceCandidate(candidate);
-=======
 	const [state, setState] = useState(false);
 	const [user, setUser] = useState({});
 	const [userState, setUserState] = useState(true);
@@ -63,7 +33,6 @@ export default function Chat() {
 				setUserState(false);
 			} else{
 				setState(true);
->>>>>>> 958b3b4e8722285cedbbb1417df99106909fe683
 			}
 		})
 	}, [])
@@ -85,42 +54,6 @@ export default function Chat() {
 			</div>
 		)
 	}
-<<<<<<< HEAD
-	
-	
-	function gotLocalDescription(description){
-		pc.setLocalDescription(description);
-		sendMessage(description);
-	}
-	
-	function gotIceCandidate(event){
-		console.log(event)
-		if (event.candidate) {
-			sendMessage({
-				type: 'candidate',
-				label: event.candidate.sdpMLineIndex,
-				id: event.candidate.sdpMid,
-				candidate: event.candidate.candidate
-			});
-		}
-	}
-
-	function sendMessage(message){
-		socket.send(message, userId);
-	}
-
-	function streamError(error) {
-		console.log(error);
-	}
-
-	function call(){
-		pc.createOffer( gotLocalDescription, 
-			function(error) { console.log(error) }, 
-			{ 'mandatory': { 'OfferToReceiveAudio': true, 'OfferToReceiveVideo': true } }
-		);
-	}
-=======
->>>>>>> 958b3b4e8722285cedbbb1417df99106909fe683
 
 	return (
 		<Video socket={socket} user={user}></Video>

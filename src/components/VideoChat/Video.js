@@ -13,8 +13,8 @@ const callOptions={config: {'iceServers': [
 navigator.getUserMedia = ( navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
 
 function wakeUp(){
-	// axios.get('https://rocky-reef-68087.herokuapp.com/email');
-	axios.get('http://localhost:8080/email');
+	axios.get('https://rocky-reef-68087.herokuapp.com/email');
+	// axios.get('http://localhost:8080/email');
 }
 let streamCache;
 let callingUser;
@@ -73,7 +73,7 @@ useEffect(()=>{
 					navigator.getUserMedia({video: true, audio: true}, (stream)=>{
 						let peer = state.peer.call(callingUser, stream);
 						peer.on('stream', (remoteStream)=> setRemoteStream(remoteStream, stream))
-						setState((state)=> ({...state, calling: true}));
+						setState((state)=> ({...state, calling: true, chatState: true}));
 					}, error);
 				}else if(data === 'rejected'){
 					setState((state)=> ({...state, rejected: true}))
@@ -82,6 +82,7 @@ useEffect(()=>{
 					}, 2000);
 				}
 			});
+			console.log('data');
 			connect.send('request')
 		});
 
@@ -102,7 +103,7 @@ useEffect(()=>{
 
 	function confirm(){
 		state.peercall.send('accepted');
-		setState((state)=> ({...state, calling: false, catchIt: false, peercall: null}));
+		setState((state)=> ({...state, calling: false, chatState: true, catchIt: false, peercall: null}));
 	}
 
 	function error(e){
