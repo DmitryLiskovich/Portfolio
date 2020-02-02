@@ -1,11 +1,14 @@
 import React, {useState} from 'react';
 import './scss/about.scss';
-import { Container, Row, Col } from 'react-bootstrap';
 
 function About () {
 
     const [isOpen, setIsOpen] = useState(false);
     const [currentPost, setCurrentPost] = useState(1);
+
+    const cards = (e)=>{
+        
+    }
 
     const slider = (post) => {
         document.title = 'About me';
@@ -72,21 +75,34 @@ function About () {
                 <div className='about-section-2-content'>
                     <div className='about-section-2-text'>
                         <h2>My Projects</h2>
-                        <div>
-                            <div onClick={()=>setIsOpen(!isOpen)} 
-                            className={isOpen ? 'about-section-2-image-active' : 'about-section-2-image'}></div>
-                            <div className={isOpen ? 'about-section-2-image-discryption-active' : 'about-section-2-image-discryption'}>
-                                <h3>Server for a mobile app on node.js</h3>
-                                <p>I have experience in creating node.js server for a mobile app created on 
-                                    Xamarin. It was my first project. In this project, I created 
-                                    simple RESTfull service. I like this project, because it helped me
-                                    learn more about node.js.
-                                </p>
-                            </div>
+                        <div className='about-projects-card'>
+                            <article onClick={()=>setIsOpen(!isOpen)} className={isOpen ? 'about-section-2-card' : 'about-section-2-card active'}>
+                                <h3 className='press'>Node.js Server</h3>
+                                <div className='about-section-2-image'>
+                                </div>
+                                <div className='about-section-2-image-discryption'>
+                                    <h3>Server for a mobile app on node.js</h3>
+                                    <p>I have experience in creating node.js server for a mobile app created on 
+                                        Xamarin. It was my first project. In this project, I created 
+                                        a simple RESTfull service. I like this project, because it helped me
+                                        learn more about node.js.
+                                    </p>
+                                </div>
+                            </article>
+                            <article onClick={()=>setIsOpen(!isOpen)} className={isOpen ? 'about-section-2-card' : 'about-section-2-card active'}>
+                                <h3 className='press'>WebRTC chat</h3>
+                                <div className='about-section-2-image'>
+                                </div>
+                                <div className='about-section-2-image-discryption'>
+                                    <h3>WebRTC chat</h3>
+                                    <p>I have experience in creating web video chat. It was project only for me. You can see this project on the page.
+                                    </p>
+                                </div>
+                            </article>
                         </div>
                     </div>
                 </div>
-                <p className='about-section-2-PS'>P.S. I have only one project now, but you can watch this pretty kitty</p>
+                <p className='about-section-2-PS'>P.S. I have not many projects now, but I can show you this pretty kitty</p>
                 <div  className='about-app' >
                     <a href='myprojects.com'><div className='about-pretty'></div></a>
                 </div>
