@@ -2,6 +2,7 @@ import React, {useRef, useEffect, useState} from 'react';
 import Video from './Video';
 import io from 'socket.io-client';
 import './login.scss'
+import Spinner from './Spinner/Spinner';
 
 document.title = 'Chat';
 
@@ -18,8 +19,10 @@ export default function Chat() {
 	const [state, setState] = useState(false);
 	const [user, setUser] = useState({});
 	const [userState, setUserState] = useState(true);
+	const [spinner, setSpinner] = useState(true);
 
 	function submit(e){
+		setSpinner(false);
 		e.preventDefault();
 		setUser({name: e.target.name.value, room: e.target.room.value})
 		socket.emit('join', e.target.room.value, e.target.name.value);
@@ -31,6 +34,7 @@ export default function Chat() {
 				setState(false);
 				setUserState(false);
 			} else{
+				setSpinner(true);
 				setState(true);
 			}
 		})
@@ -40,6 +44,7 @@ export default function Chat() {
 		return(
 			<div className='login-wrap'>
 				<form className='user-connection' onSubmit={submit}>
+				{!spinner && <Spinner></Spinner>}
 					<h2 className="form-signin-heading">Please select room and enter your nickname</h2>
 					{/* <input type='' className="form-control" name="room" placeholder="ROOM" required /> */}
 					<select type='' className="form-control" name="room" required>

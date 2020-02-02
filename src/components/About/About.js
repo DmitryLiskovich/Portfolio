@@ -59,29 +59,19 @@ function About () {
 
     return(
         <div id="about" className='about'>
-            <div className='about-under-line-revers'></div>
-            <Container className='about-section-1'>
-                <div>
-                    <Row className="justify-content-md-center">
-                        <Col md='5' style={{padding: 0}}>
-                            <div className='about-section-1-content-img'></div>
-                        </Col>
-                        <Col md='7' style={{padding: 0}} className='text-center'>
-                            <div className='about-section-1-content-text'>
-                                <h2>Who am I?</h2>
-                                <h3>I AM A <span>FRONT-END</span> DEVELOPER</h3>
-                                <p>Hello, I'm a Front-End developer from Belarus. Development is my hobby. 
-                                    I can create big projects with HTML5, CSS3, JavaScript, React.js and Node.js. I like what I do. Are you interested?</p>
-                            </div>
-                        </Col>
-                    </Row>
+            <section className='about-section-1'>
+                <div className='about-section-1-img'></div>
+                <div className='about-section-1-text'>
+                    <h2>Who am I?</h2>
+                    <h3>I AM A <span>FRONT-END</span> DEVELOPER</h3>
+                    <p>Hi, I'm a Front-End developer from Belarus. Development is my hobby. 
+                        I can create big projects with HTML5, CSS3, JavaScript, React.js and Node.js. I like what I do. Are you interested?</p>
                 </div>
-            </Container>
-            <Container className='about-section-2'>
+            </section>
+            <section className='about-section-2'>
                 <div className='about-section-2-content'>
                     <div className='about-section-2-text'>
                         <h2>My Projects</h2>
-                        <Container style={{padding: 0}}>
                         <div>
                             <div onClick={()=>setIsOpen(!isOpen)} 
                             className={isOpen ? 'about-section-2-image-active' : 'about-section-2-image'}></div>
@@ -93,18 +83,17 @@ function About () {
                                     learn more about node.js.
                                 </p>
                             </div>
-                            </div>
-                        </Container>
                         </div>
-                        <p className='about-section-2-PS'>P.S. I have only one project now, but you can watch this pretty kitty</p>
-                        <div  className='about-app' >
-                            <a href='myprojects.com'><div className='about-pretty'></div></a>
-                        </div>
+                    </div>
                 </div>
-            </Container>
-            <Container className='about-section-3'>
+                <p className='about-section-2-PS'>P.S. I have only one project now, but you can watch this pretty kitty</p>
+                <div  className='about-app' >
+                    <a href='myprojects.com'><div className='about-pretty'></div></a>
+                </div>
+            </section>
+            <section className='about-section-3'>
                 {slider(currentPost)}
-            </Container>
+            </section>
         </div>
     );
 }

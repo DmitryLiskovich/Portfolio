@@ -6,7 +6,13 @@
 }
 
 .nav-position{
+	background: rgb(227, 242, 253);
 	position: sticky;
 	top: 0;
 	z-index: 101;
+}
+
+.navbar.navbar-expand-lg.navbar-light{
+	max-width: 1290px !important;
+	margin: auto;
 }
