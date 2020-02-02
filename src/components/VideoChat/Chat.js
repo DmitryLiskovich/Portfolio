@@ -4,15 +4,14 @@ import io from 'socket.io-client';
 import './login.scss'
 import Spinner from './Spinner/Spinner';
 
-document.title = 'Chat';
-
 let socket;
 
-if(window.location.origin === "https://dmitryliskovich.github.io"){
 	socket = io.connect('https://rocky-reef-68087.herokuapp.com');
-}else{
-	socket = io.connect('http://localhost:8080');
-}
+// if(window.location.origin === "https://dmitryliskovich.github.io"){
+// 	socket = io.connect('https://rocky-reef-68087.herokuapp.com');
+// }else{
+// 	socket = io.connect('http://localhost:8080');
+// }
 
 
 export default function Chat() {
@@ -29,6 +28,7 @@ export default function Chat() {
 	}
 
 	useEffect(()=>{
+		document.title = 'Chat';
 		socket.on('message', (data)=>{
 			if(data.type === 'err'){
 				setState(false);
