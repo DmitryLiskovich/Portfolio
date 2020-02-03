@@ -82,7 +82,7 @@ function About () {
                         <h2>My Projects</h2>
                         <div className='about-projects-card'>
                             <article onClick={cards} className='about-section-2-card active'>
-                                <h3 className='press'>Node.js Server</h3>
+                                <h3 className='press'>Node.js Server<b>Press to open</b></h3>
                                 <div className='about-section-2-image'>
                                 </div>
                                 <div className='about-section-2-image-discryption'>
@@ -95,7 +95,7 @@ function About () {
                                 </div>
                             </article>
                             <article onClick={cards} className='about-section-2-card active'>
-                                <h3 className='press'>WebRTC chat</h3>
+                                <h3 className='press'>WebRTC chat <b>Press to open</b></h3>
                                 <div className='about-section-2-image chat'>
                                 </div>
                                 <div className='about-section-2-image-discryption'>
