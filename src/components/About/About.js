@@ -41,24 +41,19 @@ function About () {
                 <div className='about-section-3-slider-post'>
                     <div className={currentPosts}>
                         <div className={post === 1 ? 'about-section-3-slider-post-1-active' : 'about-section-3-slider-post-1'}>
-                            <h3>{objsArray[0].title}</h3>
-                            <p>{objsArray[0].post}</p>
+                            <h3>Sport</h3>
+                            <p>One of my hobbies is sport. I started doing sport when I was 10 y.o. Now I can do many different flips. I think it's amazing when you can do what other people can’t.</p>
                         </div>
                         <div className={post === 2 ? 'about-section-3-slider-post-2-active' : 'about-section-3-slider-post-2'}>
-                            <h3>{objsArray[1].title}</h3>
-                            <p>{objsArray[1].post}</p>
+                            <h3>Current work</h3>
+                            <p>`What can I say about my current work? Usually, I create 3d models and it's cool. But now I have fallen in love with frontend developing.</p>
                         </div>
                         <div className={post === 3 ? 'about-section-3-slider-post-3-active' : 'about-section-3-slider-post-3'}>
-                            <h3>{objsArray[2].title}</h3>
-                            <p>{objsArray[2].post}</p>
+                            <h3>Front-end</h3>
+                            <p>I discovered frontend developing a few months ago. And now I like it so much, and I devote to it all my free time.</p>
                         </div>
                     </div>
                 </div>
-                <ul className='about-points'>
-                    <li className={post === 1 ? 'about-point-active' : 'about-point'} onClick={()=>setCurrentPost(1)}></li>
-                    <li className={post === 2 ? 'about-point-active' : 'about-point'} onClick={()=>setCurrentPost(2)}></li>
-                    <li className={post === 3 ? 'about-point-active' : 'about-point'} onClick={()=>setCurrentPost(3)}></li>
-                </ul>
             </div>
         );   
     }
