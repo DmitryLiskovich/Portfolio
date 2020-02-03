@@ -1,10 +1,12 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import './scss/about.scss';
 
 function About () {
 
     const [isOpen, setIsOpen] = useState(false);
     const [currentPost, setCurrentPost] = useState(1);
+    const [sectionActive, setSectionActive] = useState(false);
+    const sectioFour = useRef(null);
 
     const cards = (e)=>{
 		console.log();
@@ -13,19 +15,24 @@ function About () {
 		}else{
 			e.currentTarget.classList.add('active');
 		}
-	}
+    }
+    
+    useEffect(()=>{
+        window.addEventListener('scroll', function check(){
+            if(sectioFour.current.getBoundingClientRect().y < window.innerHeight - sectioFour.current.clientHeight){
+                setSectionActive(true);
+                window.removeEventListener('scroll', check);
+            }
+        })
+    }, [])
 
     const slider = (post) => {
         document.title = 'About me';
-        const posts = [`One of my hobbies is sport. I started doing sport when I was 10 y.o. Now I can do many different flips. I think it's amazing when you can do what other people can’t.`, 
-        `What can I say about my current work? Usually, I create 3d models and it's cool. But now I have fallen in love with frontend developing.`, 
-        `I discovered frontend developing a few months ago. And now I like it so much, and I devote to it all my free time.`];
-        const title = ['Sport', 'Current work', 'Front-end'];
         const image = ['sport','work','front'];
         const objsArray = [
-            {post: posts[0], title: title[0], image: image[0]},
-            {post: posts[1], title: title[1], image: image[1]},
-            {post: posts[2], title: title[2], image: image[2]},
+            {image: image[0]},
+            {image: image[1]},
+            {image: image[2]},
         ];
 
         const currentPosts = `about-section-3-slider-post-slide-${post}`;
@@ -115,6 +122,17 @@ function About () {
             </section>
             <section className='about-section-3'>
                 {slider(currentPost)}
+            </section>
+            <section className={`about-section-4 ${sectionActive ? '' : 'not-show'}`} ref={sectioFour}>
+                <h2>Skills</h2>
+                <ul className='skills'>
+                    <li><p>HTML : </p> <div className='skills-container'><div className='skills-persent' style={{width: '99%'}}></div></div></li>
+                    <li><p>CSS : </p> <div className='skills-container'><div className='skills-persent' style={{width: '99%'}}></div></div></li>
+                    <li><p>JS : </p> <div className='skills-container'><div className='skills-persent' style={{width: '99%'}}></div></div></li>
+                    <li><p>React: </p> <div className='skills-container'><div className='skills-persent' style={{width: '95%'}}></div></div></li>
+                    <li><p>Redux: </p> <div className='skills-container'><div className='skills-persent' style={{width: '80%'}}></div></div></li>
+                    <li><p>Node.js: </p> <div className='skills-container'><div className='skills-persent' style={{width: '70%'}}></div></div></li>
+                </ul>
             </section>
         </div>
     );

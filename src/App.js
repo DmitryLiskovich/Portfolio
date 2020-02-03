@@ -8,6 +8,7 @@ import Posts from './components/Posts/Posts'
 import Contact from './components/Contact/Contact'
 import TaskPage from './components/Tasks/TaskPage';
 import Chat from './components/VideoChat/Chat';
+import Footer from './components/Footer';
 
 export default function App({match}) {
 	return(
@@ -25,6 +26,7 @@ export default function App({match}) {
 				<Redirect from='/' to='/about'></Redirect>
 			</Switch>
 		</HashRouter>
+		<Footer></Footer>
 	</div>
 	);
 }

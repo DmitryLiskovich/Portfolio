@@ -1,0 +1,16 @@
+.footer{
+  background: #152238;
+  color: #fff;
+  padding: 0 10px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  li{
+    margin-top: 0px;
+    a{
+      color: #fff;
+    }
+  }
+}
