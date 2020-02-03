@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './scss/about.scss';
 
 function About () {
@@ -13,7 +13,7 @@ function About () {
 		}else{
 			e.currentTarget.classList.add('active');
 		}
-    }
+	}
 
     const slider = (post) => {
         document.title = 'About me';
@@ -70,10 +70,16 @@ function About () {
             <section className='about-section-1'>
                 <div className='about-section-1-img'></div>
                 <div className='about-section-1-text'>
-                    <h2>Who am I?</h2>
-                    <h3>I AM A <span>FRONT-END</span> DEVELOPER</h3>
-                    <p>Hi, I'm a Front-End developer from Belarus. Development is my hobby. 
-                        I can create big projects with HTML5, CSS3, JavaScript, React.js and Node.js. I like what I do. Are you interested?</p>
+					<div>
+						<h2>Who am I?</h2>
+						<h3>I AM A <span>FRONT-END</span> DEVELOPER</h3>
+						<p>Hi, I'm a Front-End developer from Belarus. Development is my hobby. 
+						I can create big projects with HTML5, CSS3, JavaScript, React.js and Node.js. I like what I do. Are you interested?</p>
+					</div>
+					<div onClick={()=> window.scrollTo(0, window.innerHeight - 56)} className='about-section-1 scroll'>
+						<svg className='wheel' xmlns="http://www.w3.org/2000/svg" viewBox="-105 0 512 512.00002"><path  d="m150.601562 0c-83.042968 0-150.601562 67.558594-150.601562 150.601562v210.796876c0 83.042968 67.558594 150.601562 150.601562 150.601562 83.042969 0 150.601563-67.558594 150.601563-150.601562v-210.796876c0-83.042968-67.558594-150.601562-150.601563-150.601562zm119.882813 361.398438c0 66.101562-53.78125 119.882812-119.882813 119.882812-66.101562 0-119.882812-53.78125-119.882812-119.882812v-210.796876c0-66.101562 53.78125-119.882812 119.882812-119.882812 66.101563 0 119.882813 53.78125 119.882813 119.882812zm0 0"/><path d="m150.605469 101.851562c-8.484375 0-15.359375 6.875-15.359375 15.359376v70.695312c0 8.480469 6.875 15.359375 15.359375 15.359375 8.480469 0 15.359375-6.878906 15.359375-15.359375v-70.695312c0-8.484376-6.875-15.359376-15.359375-15.359376zm0 0"/></svg>
+						<p>Scroll down</p>
+					</div>
                 </div>
             </section>
             <section className='about-section-2'>
