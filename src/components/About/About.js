@@ -7,7 +7,12 @@ function About () {
     const [currentPost, setCurrentPost] = useState(1);
 
     const cards = (e)=>{
-        
+		console.log();
+        if(e.currentTarget.className.indexOf('active') !== -1){
+			e.currentTarget.classList.remove('active');
+		}else{
+			e.currentTarget.classList.add('active');
+		}
     }
 
     const slider = (post) => {
@@ -76,7 +81,7 @@ function About () {
                     <div className='about-section-2-text'>
                         <h2>My Projects</h2>
                         <div className='about-projects-card'>
-                            <article onClick={()=>setIsOpen(!isOpen)} className={isOpen ? 'about-section-2-card' : 'about-section-2-card active'}>
+                            <article onClick={cards} className='about-section-2-card active'>
                                 <h3 className='press'>Node.js Server</h3>
                                 <div className='about-section-2-image'>
                                 </div>
@@ -89,7 +94,7 @@ function About () {
                                     </p>
                                 </div>
                             </article>
-                            <article onClick={()=>setIsOpen(!isOpen)} className={isOpen ? 'about-section-2-card' : 'about-section-2-card active'}>
+                            <article onClick={cards} className='about-section-2-card active'>
                                 <h3 className='press'>WebRTC chat</h3>
                                 <div className='about-section-2-image'>
                                 </div>
