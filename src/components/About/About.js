@@ -96,7 +96,7 @@ function About () {
                             </article>
                             <article onClick={cards} className='about-section-2-card active'>
                                 <h3 className='press'>WebRTC chat</h3>
-                                <div className='about-section-2-image'>
+                                <div className='about-section-2-image chat'>
                                 </div>
                                 <div className='about-section-2-image-discryption'>
                                     <h3>WebRTC chat</h3>
