@@ -2,11 +2,9 @@ import React, {useState, useEffect, useRef} from 'react';
 import './scss/about.scss';
 
 function About () {
-
-    const [isOpen, setIsOpen] = useState(false);
     const [currentPost, setCurrentPost] = useState(1);
     const [sectionActive, setSectionActive] = useState(false);
-    const sectioFour = useRef(null);
+    const sectionFour = useRef(null);
 
     const cards = (e)=>{
 		console.log();
@@ -19,10 +17,12 @@ function About () {
     
     useEffect(()=>{
         window.addEventListener('scroll', function check(){
-            if(sectioFour.current.getBoundingClientRect().y < window.innerHeight - sectioFour.current.clientHeight){
-                setSectionActive(true);
-                window.removeEventListener('scroll', check);
-            }
+            if(sectionFour.current){
+				if(sectionFour.current.getBoundingClientRect().y < window.innerHeight - sectionFour.current.clientHeight){
+					setSectionActive(true);
+					window.removeEventListener('scroll', check);
+				}
+			}
         })
     }, [])
 
@@ -123,7 +123,7 @@ function About () {
             <section className='about-section-3'>
                 {slider(currentPost)}
             </section>
-            <section className={`about-section-4 ${sectionActive ? '' : 'not-show'}`} ref={sectioFour}>
+            <section className={`about-section-4 ${sectionActive ? '' : 'not-show'}`} ref={sectionFour}>
                 <h2>Skills</h2>
                 <ul className='skills'>
                     <li><p>HTML : </p> <div className='skills-container'><div className='skills-persent' style={{width: '99%'}}></div></div></li>

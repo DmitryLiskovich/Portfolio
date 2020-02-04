@@ -9,10 +9,31 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" 
     integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Titillium+Web:400,600,700,900&display=swap" rel="stylesheet">    <style>
-      body{
-        background: linear-gradient(45deg, rgba(148,36,239,1) 0%, rgba(117,254,255,1) 100%);
-        background-attachment: fixed;
-      }
+		body{
+			background: #fff;
+			background-attachment: fixed;
+		}
+	  
+	  /* width */
+		::-webkit-scrollbar {
+			width: 8px;
+		}
+		
+		/* Track */
+		::-webkit-scrollbar-track {
+			background: #f1f1f1;
+		}
+		
+		/* Handle */
+		::-webkit-scrollbar-thumb {
+			border-radius: 4px;
+			background: #888;
+		}
+		
+		/* Handle on hover */
+		::-webkit-scrollbar-thumb:hover {
+			background: #555;
+		}
 
 
       *{
@@ -20,17 +41,17 @@
         box-sizing: border-box;
         margin: 0;
         padding: 0;
-      }
+		}
 
-      #root{
-        overflow: hidden;
-      }
-      #root > div{
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-      }
+		#root{
+			overflow: hidden;
+		}
+		#root > div{
+			min-height: 100vh;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+		}
     </style>
     <title>About me</title>
   </head>
