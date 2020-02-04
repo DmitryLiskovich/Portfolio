@@ -5,7 +5,6 @@ import './navbar.scss'
 export default function Navigate(){
     const [navbarState, setNavbarState] = useState(false);
 	const [isOpen, setIsOpen] = useState(false);
-	console.log(isOpen)
 
     useEffect(()=>{
 		window.addEventListener('scroll', ()=>{
@@ -16,6 +15,14 @@ export default function Navigate(){
 			}
 		});
 	}, []);
+
+	useEffect(()=>{
+		if(isOpen){
+			document.body.style.overflow = 'hidden';
+		}else{
+			document.body.style.overflow = 'auto';
+		}
+	}, [isOpen])
 
 	return (
 		<div className="nav-position">
