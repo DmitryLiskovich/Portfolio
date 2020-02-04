@@ -53,6 +53,7 @@
 	height: 56px;
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
 	padding: 0 10px;
 	max-width: 1920px !important;
 	margin: auto;
@@ -95,7 +96,7 @@
 }
 
 @media screen and (max-width: 767px){
-	.navbar .navbar-list .navbar-nav{
+	.navbar .navbar-list{
 		top: 56px;
 		background: #152238fa;
 		width: 100%;
@@ -107,22 +108,29 @@
 		align-items: flex-start;
 		justify-content: center;
 		padding-left: 10px;
+		padding-bottom: 10px;
 		a{
 			font-size: 28px;
+		}
+
+		ul{
+			flex-grow: 1;
+			flex-direction: column;
+			align-items: flex-start;
+			justify-content: center;
 		}
 	}
 
 	.navbar .navbar-list {
-		height: 100%;
 		display: flex;
-		align-items: center;
+		// align-items: center;
 	}
 
 	.navbar-toggler{
 		display: block;
 		cursor: pointer;
 	}
-	.navbar.open .navbar-list .navbar-nav{
+	.navbar.open .navbar-list{
 		left: 0;
 	}
 

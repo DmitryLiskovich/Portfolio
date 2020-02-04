@@ -15,7 +15,7 @@ export default function Navigate(){
 			}
 		});
 	}, []);
-
+	
 	useEffect(()=>{
 		if(isOpen){
 			document.body.style.overflow = 'hidden';
