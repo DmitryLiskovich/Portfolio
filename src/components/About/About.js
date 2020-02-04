@@ -28,38 +28,35 @@ function About () {
     const slider = (post) => {
         document.title = 'About me';
         const image = ['sport','work','front'];
-        const objsArray = [
-            {image: image[0]},
-            {image: image[1]},
-            {image: image[2]},
-        ];
 
-        const currentPosts = `about-section-3-slider-post-slide-${post}`;
         
         return (
             <div>
                 <h2>A little more about me</h2>
-                <i className="fas fa-chevron-left about-section-3-prev" 
-                onClick={()=> post > 1 ? setCurrentPost(currentPost-1) : setCurrentPost(currentPost)}></i>
-                <div className={`about-section-3-image-${objsArray[post-1].image}`}></div>
-                <i className="fas fa-chevron-right about-section-3-next" 
-                onClick={()=>post < 3 ? setCurrentPost(currentPost+1) : setCurrentPost(currentPost)}></i>
-                <div className='about-section-3-slider-post'>
-                    <div className={currentPosts}>
-                        <div className={post === 1 ? 'about-section-3-slider-post-1-active' : 'about-section-3-slider-post-1'}>
-                            <h3>Sport</h3>
-                            <p>One of my hobbies is sport. I started doing sport when I was 10 y.o. Now I can do many different flips. I think it's amazing when you can do what other people can’t.</p>
-                        </div>
-                        <div className={post === 2 ? 'about-section-3-slider-post-2-active' : 'about-section-3-slider-post-2'}>
-                            <h3>Current work</h3>
-                            <p>`What can I say about my current work? Usually, I create 3d models and it's cool. But now I have fallen in love with frontend developing.</p>
-                        </div>
-                        <div className={post === 3 ? 'about-section-3-slider-post-3-active' : 'about-section-3-slider-post-3'}>
-                            <h3>Front-end</h3>
-                            <p>I discovered frontend developing a few months ago. And now I like it so much, and I devote to it all my free time.</p>
-                        </div>
-                    </div>
-                </div>
+                <div className='about-section-3-slider'>
+					<i className={`fas fa-chevron-left about-section-3-prev ${currentPost === 1 ? 'hidden' : ''}`} 
+					onClick={()=> post > 1 ? setCurrentPost(currentPost-1) : setCurrentPost(currentPost)}></i>
+					<div className='about-section-3-slider-wrapper'>
+						<div className='about-section-3-slider-posts'>
+							<div className='about-section-3-slider-posts-wrapper' style={{transform: `translateX(${-(currentPost-1 )* 33.33}%)`}}>
+								<div className='about-section-3-slider-post first'>
+									<h3>Sport</h3>
+									<p>One of my hobbies is sport. I started doing sport when I was 10 y.o. Now I can do many different flips. I think it's amazing when you can do what other people can’t.</p>
+								</div>
+								<div className='about-section-3-slider-post second'>
+									<h3>Current work</h3>
+									<p>What can I say about my current work? Usually, I create 3d models and it's cool. But now I have fallen in love with frontend developing.</p>
+								</div>
+								<div className= 'about-section-3-slider-post third'>
+									<h3>Front-end</h3>
+									<p>I discovered frontend developing a few months ago. And now I like it so much, and I devote to it all my free time.</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<i className={`fas fa-chevron-right about-section-3-next ${currentPost === 3 ? 'hidden' : ''}`} 
+					onClick={()=>post < 3 ? setCurrentPost(currentPost+1) : setCurrentPost(currentPost)}></i>
+				</div>
             </div>
         );   
     }
