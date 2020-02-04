@@ -1,7 +1,3 @@
-.image{
-  height: 53vh;
-  background: url('https://source.unsplash.com/random') center center / cover;
-}
 
 .underline{
   background: lightgray;
@@ -10,56 +6,82 @@
   height: 2px;
   border: solid 1px lightgray;
   margin: auto;
+  margin-bottom: 30px;
 }
 
 .contact-list{
-  ul{
-    color: black;
-    font-style: none;
-    display: inline;
-    padding: 0;
-    margin: 0;
-    font-size: 1.2rem;
-  }
-  
-  li{
-    text-align: center;
-    margin-top: 40px;
-    color: black;
-    font-style: none;
-    display: inline-block;
-    margin-right: 15px;
-    margin-left: 15px;
-    padding: 0;
-    color: gray;
-    cursor: pointer;
-    transition: all ease-in-out 0.5s;
-    &:hover{
-      color: lightblue;
-    }
-  }
-  
-  a{
-    color: grey;
-    transition: all ease-in-out 0.5s;
-    &:hover{
-      color: lightblue;
-    }
-  }
+	color: black;
+	font-style: none;
+	display: flex;
+	justify-content: center;
+	align-items: flex-end;
+	padding: 0;
+	margin: 0;
+	font-size: 1rem;
+	
+	li{
+		text-align: center;
+		color: black;
+		font-style: none;
+		display: inline-block;
+		margin-right: 15px;
+		margin-left: 15px;
+		padding: 0;
+		color: gray;
+		cursor: pointer;
+		transition: all ease-in-out 0.5s;
+		&:hover{
+		color: lightblue;
+		}
+	}
+	
+	a{
+		color: grey;
+		transition: all ease-in-out 0.5s;
+		&:hover{
+		color: lightblue;
+		}
+	}
 }
 
 .contact{
-  margin: auto;
-  position: relative;
-  padding: 0;
-  @media (min-width: 768px){
-    margin-top: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-  }
-  @media (max-width: 768px){
-      margin-top: 0px;
-      border-radius: 0px;
-      margin-bottom: 0px;
-  }
+	padding-top: 56px;
+	width: 100%;
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	min-height: calc(100vh - 56px);
+	
+	&-image{
+		
+		background: #ffffff55 url('https://source.unsplash.com/random') center center / cover;
+		background-blend-mode: overlay;
+		clip-path: polygon(0% 0%, 90% 0, 100% 50%, 90% 100%, 0% 100%);
+		width: 50%;
+
+		@media screen and (max-width: 991px) {
+			height: 200px;
+			width: 100%;
+			clip-path: polygon(0 0, 100% 0%, 100% 90%, 50% 100%, 0 90%);
+		}
+	}
+
+	form{
+		width: 60%;
+
+		@media screen and (max-width: 991px) {
+			width: 75%;
+		}
+	}
+
+	&-form{
+		padding: 30px 10px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 50%;
+		@media screen and (max-width: 991px) {
+			width: 100%;
+		}
+	}
 }

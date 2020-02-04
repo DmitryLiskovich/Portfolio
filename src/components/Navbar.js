@@ -7,7 +7,7 @@ export default function Navigate(){
 
     useEffect(()=>{
       window.addEventListener('scroll', ()=>{
-        if(window.scrollY > 0){
+        if(window.scrollY > 56){
           setNavbarState(true)
         }else{
           setNavbarState(false)

@@ -55,50 +55,44 @@ function Postform(props) {
 
   let notes = props.data.map(res=>{
     return(
-      <Col md='4' style={{marginBottom: '10px'}} key={res.id}>
-        <Toast>
-          <ToastHeader>
+      <div className='note' key={res.id}>
+        <div className='note-wrapp'>
+          <div className='note-header'>
             <div className='header-toast'>
               {res.title}
               <button className='close' onClick={deletePost} value={res.id}>X</button>
             </div>
-          </ToastHeader>
-          <ToastBody>
+          </div>
+          <div className='note-body'>
             {res.note}
-          </ToastBody>
-        </Toast>
-      </Col>
+          </div>
+        </div>
+      </div>
     )
   })
 
   return(
     <div>
-      <Container className='notes-main text-center'>
-        <Form onSubmit={addPost}>
-          <FormGroup>
-            <br></br>
-            <h1>You can create your notes</h1>
-            <br></br>
-            <br></br>
-            <Label>Title</Label>
-            <Input required type='text' name='title' id='title' placeholder='Title'></Input>
-            <FormFeedback>Please, write your title</FormFeedback>
-            <br></br>
-            <Label>Note</Label>
-            <Input required type='textarea' name='note' id='note' placeholder='Note'></Input>
-            <FormFeedback>Please, write your note</FormFeedback>
-            <br></br>
-            <Button type='submit' color='info'>Add</Button>
-          </FormGroup>
-        </Form>
+      <div className='notes-main'>
+        <form onSubmit={addPost}>
+			<h1>You can create your notes</h1>
+			<br></br>
+			<label>Title</label>
+			<input required type='text' name='title' id='title' placeholder='Title'></input>
+			<br></br>
+			<label>Note</label>
+			<textarea required name='note' id='note' placeholder='Note'></textarea>
+			<br></br>
+			<input className='submitButton' type='submit' color='info' value='Add'></input>
+        </form>
         <br></br>
-      </Container>
+      </div>
       <br></br>
-      <Container>
-        <Row>
+      <div>
+        <div className='notes-wrapper'>
           {notes}
-        </Row>
-      </Container>
+        </div>
+      </div>
     </div>
   )
 }

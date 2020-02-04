@@ -34,41 +34,33 @@ export default function Contact() {
 	}
   }
 
-  return(
-    <Container className='text-center contact'>
-		{spinner ? <Spinner/> : ''}
-      <Row style={{margin:0, padding: 0}}>
-        <Col style={{margin:0, padding: 0}}>
-          <Card>
-            <div className="card-img-top image"></div>
-            <CardBody>
-              <Form onSubmit = {sendEmail}>
-                <FormGroup>
+	return(
+		<div className='contact'>
+			{spinner ? <Spinner/> : ''}
+			<div className="contact-image"></div>
+			<div className='contact-form'>
+				<form onSubmit = {sendEmail}>
 				<label>Enter your theme</label>
 				<br></br>
-				<Input required type='text' name="emailSubject" className="form-control z-depth-1" id="exampleFormControlTextarea6" rows="3" placeholder="Write your them"></Input>
+				<input required type='text' name="emailSubject" className="form-control z-depth-1" id="exampleFormControlTextarea6" rows="3" placeholder="Write your them"></input>
 				<br></br>
 				<label>Enter your message</label>
 				<br></br>
-				<Input type='textarea' name="emailText" className="form-control z-depth-1" id="exampleFormControlTextarea6" rows="3" placeholder="Write your message"></Input>
+				<textarea type='textarea' name="emailText" className="form-control z-depth-1" id="exampleFormControlTextarea6" rows="3" placeholder="Write your message"></textarea>
 				<br></br>
-				<Button type="submit" color='info'>Send</Button>
+				<input className='submitButton' type="submit" color='info' value='Send'></input>
 				<br></br>
 				<br></br>
 				<h2 style={{color: state.status ? 'green' : 'red', fontStyle: 'italic'}}>{state.message}</h2>
 				<div className="underline"></div>
 				<ul className='contact-list'>
-                    <li><a href="https://vk.com/shine_a_light_lis"><i className="fab fa-vk"></i></a></li>
-                    <li><a href="https://www.linkedin.com/in/dmitry-liskovich-175470174/"><i className="fab fa-linkedin-in"></i></a></li>
-                    <li><a href="https://github.com/DmitryLiskovich"><i className="fab fa-github-alt"></i></a></li>
-                    <li><a href="skype:dimalisko"><i className="fab fa-skype"></i></a></li>
+					<li><a href="https://vk.com/shine_a_light_lis"><i className="fab fa-vk"></i></a></li>
+					<li><a href="https://www.linkedin.com/in/dmitry-liskovich-175470174/"><i className="fab fa-linkedin-in"></i></a></li>
+					<li><a href="https://github.com/DmitryLiskovich"><i className="fab fa-github-alt"></i></a></li>
+					<li><a href="skype:dimalisko"><i className="fab fa-skype"></i></a></li>
 				</ul>
-                </FormGroup>
-              </Form>
-            </CardBody>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
-  )
+				</form>
+			</div>
+		</div>
+	)
 }

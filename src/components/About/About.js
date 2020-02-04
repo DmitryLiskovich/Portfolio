@@ -7,7 +7,6 @@ function About () {
     const sectionFour = useRef(null);
 
     const cards = (e)=>{
-		console.log();
         if(e.currentTarget.className.indexOf('active') !== -1){
 			e.currentTarget.classList.remove('active');
 		}else{
