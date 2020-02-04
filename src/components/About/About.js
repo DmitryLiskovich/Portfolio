@@ -44,8 +44,8 @@ function About () {
 									<p>One of my hobbies is sport. I started doing sport when I was 10 y.o. Now I can do many different flips. I think it's amazing when you can do what other people can’t.</p>
 								</div>
 								<div className='about-section-3-slider-post second'>
-									<h3>Current work</h3>
-									<p>What can I say about my current work? Usually, I create 3d models and it's cool. But now I have fallen in love with frontend developing.</p>
+									<h3>3D models</h3>
+									<p>What can I say about that? I can create 3d models and it's cool. But now I have fallen in love with frontend developing.</p>
 								</div>
 								<div className= 'about-section-3-slider-post third'>
 									<h3>Front-end</h3>
