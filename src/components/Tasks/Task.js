@@ -1,21 +1,14 @@
 import React from 'react';
-import { Toast, ToastBody, ToastHeader, Col, Container, Row } from 'reactstrap';
 
 export default function Task(props) {
-  return(
-      <Container style={{zIndex: 100}}>
-        <Row>
-          <Col style={{marginBottom: '10px'}}>
-            <Toast>
-            <ToastHeader>
-              {props.title}
-            </ToastHeader>
-            <ToastBody>
-              {props.text}
-            </ToastBody>
-            </Toast>
-          </Col>
-        </Row>
-      </Container>
-  )
+	return(
+		<div className='toaster'>
+			<h2>
+				{props.title}
+			</h2>
+			<p>
+				{props.text}
+			</p>
+		</div>
+	)
 }
