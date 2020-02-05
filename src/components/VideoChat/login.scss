@@ -6,13 +6,32 @@
   align-items: center;
 }
 
+select{
+	width: 100%;
+	height: 40px;
+	border-radius: 5px;
+	background: transparent;
+	padding-left: 10px;
+	cursor: pointer;
+	font-size: 16px;
+}
+
+
 .user-connection{
-  color: #fff;
-  background: #00000033;
   max-width: 500px;
   padding: 40px 20px;
   border-radius: 5px;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  	input, select{
+		margin: 7px 0;
+	}
+	
+	h2{
+		margin: 7px 0;
+	}
 
 
   .alert{

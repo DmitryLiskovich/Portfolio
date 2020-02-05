@@ -12,7 +12,7 @@ function About () {
 		}else{
 			e.currentTarget.classList.add('active');
 		}
-    }
+	}
     
     useEffect(()=>{
         window.addEventListener('scroll', function check(){
@@ -27,7 +27,6 @@ function About () {
 
     const slider = (post) => {
         document.title = 'About me';
-        const image = ['sport','work','front'];
 
         
         return (

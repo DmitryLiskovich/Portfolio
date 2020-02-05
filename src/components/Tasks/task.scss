@@ -1,11 +1,80 @@
+.toaster{
+	width: 100%;
+	background: #fff;
+	border-radius: 5px;
+	border: 1px solid #ddd;
+	margin-bottom: 10px;
+	h2{
+		font-size: 18px;
+		padding: 5px 10px;
+		border-bottom: 1px solid #ddd;
+	}
+
+	p{
+		padding: 5px 10px;
+		font-size: 16px;
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
+}
+
+.task-form > form{
+	padding-top: 56px;
+	padding-left: 10px;
+	padding-right: 10px;
+	margin: auto;
+	width: 50%;
+
+	@media screen and (max-width: 991px) {
+		width: 75%;
+	}
+
+	@media screen and (max-width: 767px) {
+		width: 100%;
+	}
+
+}
 
 .task-form{
-  @media (min-width: 768px){
-    margin-top: 10px;
-    border-radius: 5px;
-  }  
-  @media (max-width: 768px){
-    margin-top: 0px;
-    border-radius: 0px;
-  }  
+	background: #f5f5f5;
+}
+
+.dropable{
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	width: 100%;
+	padding: 10px 0;
+	&-field{
+		width: 23%;
+		margin-left: 10px;
+		background: #f0f0f0;
+		border-radius: 5px;
+
+		@media screen and (max-width: 991px) {
+			margin: 10px !important;
+			width: 47%;
+		}
+
+		@media screen and (max-width: 767px) {
+			width: 100%;
+		}
+
+		&-drop{
+			height: calc(100% - 46px);
+			padding: 10px 5px 0 5px;
+
+			&.over{
+				background: #ccc;
+			}
+		}
+
+		&-header{
+			padding: 10px 5px;
+			border-bottom: 2px solid #fff ;
+		}
+		&:last-child{
+			margin-right: 10px;
+		}
+	}
 }

@@ -1,130 +1,128 @@
 .TextChat {
-    text-align: center;
-    width: 100%;
-    height: 100%;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-  *{
-    box-sizing: border-box;
-  }
+	text-align: center;
+	width: 100%;
+	height: 100%;
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+	*{
+		box-sizing: border-box;
+	}
 
-  .sign-in{
-    width: 30%;
-    margin: auto;
-  }
+	.sign-in{
+		width: 30%;
+		margin: auto;
+	}
 
-  .message-connect{
-    width: 100%;
-    text-align: center;
-  }
+	.message-connect{
+		width: 100%;
+		text-align: center;
+	}
 
-  .messages-wrap{
-    display: flex;
-    align-items: flex-start;
-    height: 100%;
-    /* justify-content: flex-end; */
-    margin-top: auto;
-    flex-direction: column;
-    border-top: transparent;
-    padding: 10px;
-  }
+	.messages-wrap{
+		display: flex;
+		align-items: flex-start;
+		height: 100%;
+		/* justify-content: flex-end; */
+		margin-top: auto;
+		flex-direction: column;
+		border-top: transparent;
+		padding: 10px;
+	}
 
-  .messages-wrap > :first-child {
-      margin-top: auto !important;
-      /* use !important to prevent breakage from child margin settings */
-  }
+	.messages-wrap > :first-child {
+		margin-top: auto !important;
+		/* use !important to prevent breakage from child margin settings */
+	}
 
-  .disconect{
-    width: 100%;
-  }
+	.disconect{
+		width: 100%;
+	}
 
-  .App-logo {
-    height: 40vmin;
-    pointer-events: none;
-  }
+	.App-logo {
+		height: 40vmin;
+		pointer-events: none;
+	}
 
-  @media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-      animation: App-logo-spin infinite 20s linear;
-    }
-  }
+	@media (prefers-reduced-motion: no-preference) {
+		.App-logo {
+		animation: App-logo-spin infinite 20s linear;
+		}
+	}
 
-  input{
-    padding-left: 10px;
-    height: 50px;
-    background: transparent;
-    color: #fff;
-    &::placeholder{
-      color: #fff;
-    }
-    border: 2px solid #00000033;
-    border-left: transparent;
-  }
+	input{
+		padding-left: 10px;
+		height: 50px;
+		background: transparent;
+		border: 2px solid #00000033;
+		border-left: transparent;
+	}
 
-  .App-header {
-    background-color: #282c34;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
-  }
+	.App-header {
+		background-color: #282c34;
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		font-size: calc(10px + 2vmin);
+		color: white;
+	}
 
-  .App-link {
-    color: #61dafb;
-  }
+	.App-link {
+		color: #61dafb;
+	}
 
-  @keyframes App-logo-spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
+	.message{
+		margin-right: 0;
+		margin-top: 10px;
+		margin-bottom: 10px;
+		border: 1px solid #aaa;
+		border-radius: 4px;
+		background: #eee;
+		max-width: 80%;
+	}
+	p{
+		margin: 0;
+		padding: 5px;
+	}
 
-  .message{
-    margin-right: 0;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #aaa;
-    border-radius: 4px;
-    background: #eee;
-    max-width: 80%;
-  }
-  p{
-    margin: 0;
-    padding: 5px;
-  }
+	.my_message{
+		align-self: flex-end;
+	}
 
-  .my_message{
-    align-self: flex-end;
-  }
+	.id{
+		width: 100%;
+		font-size: 10px;
+		text-align: right;
+		padding-right: 10px;
+	}
 
-  .id{
-    width: 100%;
-    font-size: 10px;
-    text-align: right;
-    padding-right: 10px;
-  }
+	form{
+		display: flex;
+		input{
+			height: 50px;
+			flex-grow: 1;
+			margin: 0;
+			border-radius: 0;
+		}
+		button{
+			height: 50px;
+			width: 100px;
+			background: #00000000;
+			border: 2px solid #00000033;
+			border-left: transparent;
+			transition: ease-in-out 0.5s background;
+			cursor: pointer;
+			&:hover{
+			background: #00000033;
+			}
+		}
 
-  input{
-    height: 50px;
-    width: 90%;
-  }
-  button{
-    height: 50px;
-    color: #fff;
-    width: 10%;
-    background: #00000000;
-    border: 2px solid #00000033;
-    border-left: transparent;
-    transition: ease-in-out 0.5s background;
-    &:hover{
-      background: #00000033;
-    }
-  }
+		@media screen and (max-width: 767px) {
+			button, input{
+				height: 50px;
+			}
+		}
+	}
 }
