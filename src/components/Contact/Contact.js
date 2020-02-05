@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import { Container, Row, Col, Input, Card, CardBody, Form, FormGroup, Button } from 'reactstrap';
 import './contact.scss';
 import axios from 'axios';
 import Spinner from '../Spinner/Spinner';
@@ -29,7 +28,7 @@ export default function Contact() {
 		setSpinner(false);
 	}catch(err){
 		console.log(err);
-		setState({message: err.response.data.message, status: false});
+		// setState({message: err.response.data.message, status: false});
 		setSpinner(false);
 	}
   }
