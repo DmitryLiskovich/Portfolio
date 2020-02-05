@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Video from './Video';
 import io from 'socket.io-client';
 import './login.scss'

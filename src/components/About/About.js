@@ -27,7 +27,6 @@ function About () {
 
     const slider = (post) => {
         document.title = 'About me';
-        const image = ['sport','work','front'];
 
         
         return (

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Container, Form, FormGroup, Input, Label, Button, Toast, ToastHeader, ToastBody, Row, Col, FormFeedback } from 'reactstrap';
 import { createStore } from 'redux';
 import { connect, Provider } from 'react-redux';
 

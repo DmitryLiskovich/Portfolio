@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import { Container, Row, Col, Input, Card, CardBody, Form, FormGroup, Button } from 'reactstrap';
 import './contact.scss';
 import axios from 'axios';
 import Spinner from '../Spinner/Spinner';

@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useState, force} from 'react';
+import React, {useRef, useEffect, useState} from 'react';
 import Peer from 'peerjs';
 import axios from 'axios';
 import './myChat.scss'
@@ -26,7 +26,7 @@ export default function Chat(props) {
 	const [videoStream, setVideoStream] = useState([]);
 	const [selectedUser, setSelectedUser] = useState();
 	const video = useRef(null);
-	const {room, name} = props.user;
+	const name = props.user.name;
 	const socket = props.socket;
 	const [peers, setPeers] = useState({});
 
