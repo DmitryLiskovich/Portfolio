@@ -28,6 +28,7 @@ export default function Chat(props) {
 	const {room, name} = props.user;
 	const socket = props.socket;
 	const [peers, setPeers] = useState({});
+	let message;
 
 	useEffect(()=>{
 		state.peer.on('open', function(peerID) {
@@ -47,17 +48,21 @@ export default function Chat(props) {
 		})
 
 		state.peer.on('call', function(call) {
-			navigator.getUserMedia({video: true, audio: true}, (stream)=>{
-				call.answer(stream);
-				callingUser = call.peer;
-				call.on('close', (e)=>{
-					console.log(stream)
-					stream.getTracks().forEach(track => track.stop());
-					setState((state)=> ({...state, calling: false}));
-				})
-				call.on('stream', (remoteStream)=> setRemoteStream(remoteStream, stream))
-				setState((state)=> ({...state, catchIt: false, calling: true, peercall: call}))
-			}, error);
+			if(navigator.getUserMedia){
+				navigator.getUserMedia({video: true, audio: true}, (stream)=>{
+					call.answer(stream);
+					callingUser = call.peer;
+					call.on('close', (e)=>{
+						console.log(stream)
+						stream.getTracks().forEach(track => track.stop());
+						setState((state)=> ({...state, calling: false}));
+					})
+					call.on('stream', (remoteStream)=> setRemoteStream(remoteStream, stream))
+					setState((state)=> ({...state, catchIt: false, calling: true, peercall: call}))
+				}, error);
+			}else{
+				call.close();
+			}
 		});
 }, []);
 
@@ -77,16 +82,26 @@ useEffect(()=>{
 			connect.on('data', (data)=>{
 				console.log(data);
 				if(data !== 'rejected'){
-					navigator.getUserMedia({video: true, audio: true}, (stream)=>{
-						let peer = state.peer.call(callingUser, stream);
-						peer.on('stream', (remoteStream)=> setRemoteStream(remoteStream, stream))
-						peer.on('close', (e)=>{
-							stream.getTracks().forEach(track => track.stop());
-							setState((state)=> ({...state, calling: false}));
-						})
-						setState((state)=> ({...state, calling: true, chatState: true, peercall: peer}));
-					}, error);
+					if(navigator.getUserMedia){
+						navigator.getUserMedia({video: true, audio: true}, (stream)=>{
+							let peer = state.peer.call(callingUser, stream);
+							peer.on('stream', (remoteStream)=> setRemoteStream(remoteStream, stream))
+							peer.on('close', (e)=>{
+								stream.getTracks().forEach(track => track.stop());
+								setState((state)=> ({...state, calling: false}));
+							})
+							setState((state)=> ({...state, calling: true, chatState: true, peercall: peer}));
+						}, error);
+					}else{
+						message = "You don't have web camera or you have http connection";
+						setState((state)=> ({...state, rejected: true}))
+						setTimeout(()=>{
+							setState((state)=> ({...state, rejected: false}))
+						}, 2000);
+						return;
+					}
 				}else if(data === 'rejected'){
+					message = 'Your call has been rejected';
 					setState((state)=> ({...state, rejected: true}))
 					setTimeout(()=>{
 						setState((state)=> ({...state, rejected: false}))
@@ -134,10 +149,10 @@ useEffect(()=>{
 
 	return (
 		<div className="App">
-			{state.rejected && <Modal></Modal>}
+			{state.rejected && <Modal message={message}></Modal>}
 			<div className={`users-list ${state.chatState && 'hidden'}`}>
 				<ul onClick={checkUserToCall}>
-					<li className='header'><h1>Users List</h1><i class="far fa-comments chat-change" onClick={()=>setState({...state, chatState: true})}></i></li>
+					<li className='header'><h1>Users List</h1><i className="far fa-comments chat-change" onClick={()=>setState({...state, chatState: true})}></i></li>
 					{Object.keys(peers).map((item, index)=> {
 						return(
 							<li data-name={item} className={`${selectedUser && selectedUser[item] && 'active'}`} data-number={peers[item]} key={index}><div className='user-name'>{item.slice(0, 2)}</div><p>{item}</p><div className="button">

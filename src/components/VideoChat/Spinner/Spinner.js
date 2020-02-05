@@ -3,6 +3,6 @@ import './Spinner.scss';
 
 export default function Spinner(){
   return(
-    <div class="lds-dual-ring"></div>
+    <div className="lds-dual-ring"></div>
   )
 }

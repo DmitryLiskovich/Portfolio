@@ -113,18 +113,23 @@ height: 200px;
 }
 
 .chat{
-display: flex;
-justify-content: space-around;
-align-items: center;
-height: 100%;
-video{
-	padding: 5px;
-	height: 100%;
-	@media screen and (max-width: 767.98px) {
-	width: 100%;
-	max-height: calc( 100vh - 56px);
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	height: 94%;
+	flex-grow: 1;
+	video{
+		padding: 5px;
+		height: 100%;
+		@media screen and (max-width: 767.98px) {
+		width: 100%;
+		max-height: calc( 100vh - 56px);
+		}
 	}
-}
+
+	&-wrap{
+		height: 100%;
+	}
 }
 
 .button{
