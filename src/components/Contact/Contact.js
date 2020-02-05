@@ -17,8 +17,7 @@ export default function Contact() {
 	}
 	setSpinner(true);
 	try{
-		// const result = await axios.post('https://rocky-reef-68087.herokuapp.com/email', {
-		const result = await axios.post('http://localhost:8080/email', {
+		const result = await axios.post('https://rocky-reef-68087.herokuapp.com/email', {
 			text: e.target.emailText.value,
 			them: e.target.emailSubject.value
 		});
