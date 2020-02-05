@@ -1,10 +1,10 @@
-	import React, {useState, useEffect} from 'react';
-	import { DragDropContext } from 'react-beautiful-dnd';
-	import Droptable from './Droptable';
-	import AddTask from './FormTask';
-	import './task.scss'
+import React, {useState, useEffect} from 'react';
+import { DragDropContext } from 'react-beautiful-dnd';
+import Droptable from './Droptable';
+import AddTask from './FormTask';
+import './task.scss'
 
-	export default function TaskPage() {
+export default function TaskPage() {
 
 	const reorder = (list, startIndex, endIndex) => {
 		const result = Array.from(list);
@@ -12,10 +12,6 @@
 		result.splice(endIndex, 0, removed);
 		return result;
 	};
-
-	if(!localStorage.getItem('counter')){
-		localStorage.setItem('counter', '0');
-	}
 
 	const move = (source, destination, droppableSource, droppableDestination) => {
 		const sourceClone = Array.from(source);
@@ -39,10 +35,6 @@
 		pendingPR: [],
 	});
 
-	if(!localStorage.getItem('data')){
-		localStorage.setItem('data', JSON.stringify(state));
-	}
-
 	const id2List = {
 		droppable: 'toDo',
 		droppable2: 'onHold',
@@ -51,6 +43,14 @@
 	};
 
 	useEffect(()=>{
+		if(!localStorage.getItem('counter')){
+			localStorage.setItem('counter', '0');
+		}
+
+		if(!localStorage.getItem('data')){
+			localStorage.setItem('data', JSON.stringify(state));
+		}
+
 		setState(JSON.parse(localStorage.getItem('data')));
 	}, []);
 
@@ -66,7 +66,7 @@
 			const elements = state;
 			elements[sourceList] = elements[sourceList].filter((item) => item.id !== result.draggableId);
 			localStorage.setItem('data', JSON.stringify(elements));
-			setState(elements);
+			setState(JSON.parse(localStorage.getItem('data')));
 			return;
 		}
 
@@ -118,21 +118,21 @@
 		setState(JSON.parse(localStorage.getItem('data')));
 	}
 
-		return (
-			<div>
-				<div className='task-form'>
-					<form onSubmit={addNewTask}>
-						<AddTask></AddTask>
-					</form>
-				</div>
-				<DragDropContext onDragEnd={onDragEnd}>
-					<div className='dropable'>
-						<Droptable title='To Do' zIndex={1} state={state.toDo} dropId ={'droppable'}></Droptable>
-						<Droptable title='On hold' zIndex={2} state={state.onHold} dropId ={'droppable2'}></Droptable>
-						<Droptable title='In process' zIndex={3} state={state.inProcess} dropId ={'droppable3'}></Droptable>
-						<Droptable title='Pending PR' zIndex={4} state={state.pendingPR} dropId ={'droppable4'}></Droptable>
-					</div>
-				</DragDropContext>
+	return (
+		<div>
+			<div className='task-form'>
+				<form onSubmit={addNewTask}>
+					<AddTask></AddTask>
+				</form>
 			</div>
-		);
-	}
+			<DragDropContext onDragEnd={onDragEnd}>
+				<div className='dropable'>
+					<Droptable title='To Do' zIndex={1} state={state.toDo} dropId ={'droppable'}></Droptable>
+					<Droptable title='On hold' zIndex={2} state={state.onHold} dropId ={'droppable2'}></Droptable>
+					<Droptable title='In process' zIndex={3} state={state.inProcess} dropId ={'droppable3'}></Droptable>
+					<Droptable title='Pending PR' zIndex={4} state={state.pendingPR} dropId ={'droppable4'}></Droptable>
+				</div>
+			</DragDropContext>
+		</div>
+	);
+}

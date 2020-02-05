@@ -137,7 +137,7 @@ useEffect(()=>{
 			{state.rejected && <Modal></Modal>}
 			<div className={`users-list ${state.chatState && 'hidden'}`}>
 				<ul onClick={checkUserToCall}>
-					<li className='header'><h1>Users List</h1></li>
+					<li className='header'><h1>Users List</h1><i class="far fa-comments chat-change" onClick={()=>setState({...state, chatState: true})}></i></li>
 					{Object.keys(peers).map((item, index)=> {
 						return(
 							<li data-name={item} className={`${selectedUser && selectedUser[item] && 'active'}`} data-number={peers[item]} key={index}><div className='user-name'>{item.slice(0, 2)}</div><p>{item}</p><div className="button">
@@ -160,7 +160,7 @@ useEffect(()=>{
 			}
 			{!state.calling &&
 			<>
-				<i onClick={()=>setState((state)=> ({...state, chatState: false}))} className="fas fa-times close-button"></i>
+				<i onClick={()=>setState((state)=> ({...state, chatState: false}))} className={`fas fa-times close-button ${!state.chatState ? 'hidden' : ''}`}></i>
 				<div className={`text-chat ${!state.chatState && 'hidden'}`}>
 					<TextChat selectedUser={name} socket={socket}></TextChat>
 				</div>

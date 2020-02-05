@@ -53,7 +53,7 @@ export default function Chat() {
 					</select>
 					<input type="text" className="form-control" name="name" placeholder="USER NAME" required/>      
 					{!userState && <div className='alert'>User already in this room</div>}
-					<button className="btn btn-lg btn-primary btn-block" type="submit">Enter</button>   
+					<input className="submitButton" type="submit" value='Enter'></input>   
 				</form>
 			</div>
 		)
