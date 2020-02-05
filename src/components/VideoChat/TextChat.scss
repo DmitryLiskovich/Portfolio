@@ -108,6 +108,7 @@
 		}
 		button{
 			height: 50px;
+			width: 100px;
 			background: #00000000;
 			border: 2px solid #00000033;
 			border-left: transparent;
@@ -115,6 +116,12 @@
 			cursor: pointer;
 			&:hover{
 			background: #00000033;
+			}
+		}
+
+		@media screen and (max-width: 767px) {
+			button, input{
+				height: 50px;
 			}
 		}
 	}

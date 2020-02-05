@@ -147,7 +147,7 @@ useEffect(()=>{
 	return (
 		<div className="App">
 			{state.rejected && <Modal message={message}></Modal>}
-			<div className={`users-list ${state.calling || state.chatState && 'hidden'}`}>
+			<div className={`users-list ${state.calling || state.chatState ? 'hidden' : ''}`}>
 				<ul onClick={checkUserToCall}>
 					<li className='header'><h1>Users List</h1><i className="far fa-comments chat-change" onClick={()=>setState({...state, chatState: true})}></i></li>
 					{Object.keys(peers).map((item, index)=> {
