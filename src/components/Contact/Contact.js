@@ -17,7 +17,8 @@ export default function Contact() {
 	}
 	setSpinner(true);
 	try{
-		const result = await axios.post('https://rocky-reef-68087.herokuapp.com/email', {
+		// const result = await axios.post('https://rocky-reef-68087.herokuapp.com/email', {
+		const result = await axios.post('http://localhost:8080/email', {
 			text: e.target.emailText.value,
 			them: e.target.emailSubject.value
 		});
@@ -50,7 +51,7 @@ export default function Contact() {
 				<input className='submitButton' type="submit" color='info' value='Send'></input>
 				<br></br>
 				<br></br>
-				<h2 style={{color: state.status ? 'green' : 'red', fontStyle: 'italic'}}>{state.message}</h2>
+				<h2 style={{color: state.status ? 'green' : 'red', fontStyle: 'italic', textAlign: 'center'}}>{state.message}</h2>
 				<div className="underline"></div>
 				<ul className='contact-list'>
 					<li><a href="https://vk.com/shine_a_light_lis"><i className="fab fa-vk"></i></a></li>
