@@ -12,7 +12,7 @@ function About () {
 		}else{
 			e.currentTarget.classList.add('active');
 		}
-    }
+	}
     
     useEffect(()=>{
         window.addEventListener('scroll', function check(){

@@ -41,11 +41,11 @@ export default function Contact() {
 				<form onSubmit = {sendEmail}>
 				<label>Enter your theme</label>
 				<br></br>
-				<input required type='text' name="emailSubject" className="form-control z-depth-1" id="exampleFormControlTextarea6" rows="3" placeholder="Write your them"></input>
+				<input required type='text' name="emailSubject" className="form-control z-depth-1" rows="3" placeholder="Write your them"></input>
 				<br></br>
 				<label>Enter your message</label>
 				<br></br>
-				<textarea type='textarea' name="emailText" className="form-control z-depth-1" id="exampleFormControlTextarea6" rows="3" placeholder="Write your message"></textarea>
+				<textarea type='textarea' name="emailText" className="form-control z-depth-1" rows="3" placeholder="Write your message"></textarea>
 				<br></br>
 				<input className='submitButton' type="submit" color='info' value='Send'></input>
 				<br></br>

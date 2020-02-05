@@ -6,15 +6,15 @@ export default function Navigate(){
     const [navbarState, setNavbarState] = useState(false);
 	const [isOpen, setIsOpen] = useState(false);
 
-    // useEffect(()=>{
-	// 	window.addEventListener('scroll', ()=>{
-	// 		if(window.scrollY > 56){
-	// 			setNavbarState(true)
-	// 		}else{
-	// 			setNavbarState(false)
-	// 		}
-	// 	});
-	// }, []);
+    useEffect(()=>{
+		window.addEventListener('scroll', ()=>{
+			if(window.scrollY > 56){
+				setNavbarState(true)
+			}else{
+				setNavbarState(false)
+			}
+		});
+	}, []);
 	
 	useEffect(()=>{
 		if(isOpen){
