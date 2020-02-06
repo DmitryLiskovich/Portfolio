@@ -99,7 +99,7 @@ function About () {
                             </article>
                             <article onClick={cards} className='about-section-2-card active'>
                                 <h3 className='press'><span>WebRTC chat</span> <b>Press to open</b></h3>
-                                <div className='about-section-2-image chat'>
+                                <div className='about-section-2-image chat-card'>
                                 </div>
                                 <div className='about-section-2-image-discryption'>
                                     <h3>WebRTC chat</h3>

@@ -1,0 +1,65 @@
+input, textarea{
+	width: 100%;
+	resize: vertical;
+	margin: 7px 0;
+	border: 1px solid #aaa;
+	border-radius: 5px;
+	background: transparent;
+}
+
+input{
+	height: 40px;
+	padding: 0 10px;
+}
+
+textarea{
+	padding: 10px;
+}
+
+.contact-list{
+	color: black;
+	font-style: none;
+	display: flex;
+	justify-content: center;
+	align-items: flex-end;
+	padding: 0;
+	margin: 0;
+	font-size: 1rem;
+	
+	li{
+		text-align: center;
+		color: black;
+		font-style: none;
+		display: inline-block;
+		margin-right: 15px;
+		margin-left: 15px;
+		padding: 0;
+		color: gray;
+		cursor: pointer;
+		transition: all ease-in-out 0.5s;
+		&:hover{
+		color: lightblue;
+		}
+	}
+	
+	a{
+		color: grey;
+		transition: all ease-in-out 0.5s;
+		&:hover{
+		color: lightblue;
+		}
+	}
+}
+
+.submitButton{
+	background: #00a6d6 !important;
+	font-size: 18px;
+	color: #fff;
+	transition: ease-in-out 0.5s all;
+	cursor: pointer;
+
+	&:hover{
+		color: #fff;
+		background: #0087ad !important;
+	}
+}

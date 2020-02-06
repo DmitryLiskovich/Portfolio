@@ -1,6 +1,7 @@
 import React, {useRef, useEffect, useState} from 'react';
 import Peer from 'peerjs';
 import axios from 'axios';
+import paper, {Path} from 'paper/dist/paper-core';
 import './myChat.scss'
 import TextChat from './TextChat';
 import Modal from './Modal/Modal';
@@ -20,17 +21,21 @@ let streamCache;
 let callingUser;
 setInterval(wakeUp, 300000);
 let message;
+let path;
+const pathHistory = [];
 
 export default function Chat(props) {
 	const [state, setState] = useState({catchIt: false, calling: false, chatState: false, peer: new Peer(callOptions), localStream: null, peercall: null, rejected: false});
 	const [videoStream, setVideoStream] = useState([]);
 	const [selectedUser, setSelectedUser] = useState();
 	const video = useRef(null);
+	const draw = useRef(null);
 	const name = props.user.name;
 	const socket = props.socket;
 	const [peers, setPeers] = useState({});
 
 	useEffect(()=>{
+
 		state.peer.on('open', function(peerID) {
 			socket.send(peerID);
 		});
@@ -49,7 +54,7 @@ export default function Chat(props) {
 
 		state.peer.on('call', function(call) {
 			if(navigator.getUserMedia){
-				navigator.getUserMedia({video: true, audio: true}, (stream)=>{
+				navigator.getUserMedia({video: true, audio: false}, (stream)=>{
 					call.answer(stream);
 					callingUser = call.peer;
 					call.on('close', (e)=>{
@@ -63,6 +68,48 @@ export default function Chat(props) {
 				call.close();
 			}
 		});
+
+		paper.setup(draw.current);
+
+		draw.current.addEventListener('mousedown', onMouseDown);
+
+		function onMouseDown(event) {
+			if (path) {
+				path.selected = false;
+			}
+
+			console.log(pathHistory);
+
+			if(event.button === 2 && path){
+				pathHistory.forEach(item=> item.remove());
+			}
+
+		
+			path = new Path({
+				strokeColor: '#152238',
+				selected: true
+			});
+
+			pathHistory.push(path);
+
+			draw.current.addEventListener('mousemove', onMouseDrag);
+			draw.current.addEventListener('mouseup', onMouseUp);
+		}
+		
+		function onMouseDrag(event) {
+			if(path && event.layerX > 0){
+				path.add(event.layerX, event.layerY);
+			}
+		}
+		
+		function onMouseUp(event) {
+			if(path){
+				path.simplify();
+				path.selected = false;
+			}
+			draw.current.removeEventListener('mousemove', onMouseDrag);
+			draw.current.removeEventListener('mouseup', onMouseUp);
+		}
 }, []);
 
 useEffect(()=>{
@@ -80,7 +127,7 @@ useEffect(()=>{
 			connect.on('data', (data)=>{
 				if(data !== 'rejected'){
 					if(navigator.getUserMedia){
-						navigator.getUserMedia({video: true, audio: true}, (stream)=>{
+						navigator.getUserMedia({video: true, audio: false}, (stream)=>{
 							let peer = state.peer.call(callingUser, stream);
 							peer.on('stream', (remoteStream)=> setRemoteStream(remoteStream, stream))
 							peer.on('close', (e)=>{
@@ -146,6 +193,7 @@ useEffect(()=>{
 
 	return (
 		<div className="App">
+			<canvas id='draw' ref={draw}></canvas>
 			{state.rejected && <Modal message={message}></Modal>}
 			<div className={`users-list ${state.calling || state.chatState ? 'hidden' : ''}`}>
 				<ul onClick={checkUserToCall}>

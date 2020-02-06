@@ -12,24 +12,6 @@
 	}
 }
 
-input, textarea{
-	width: 100%;
-	resize: vertical;
-	margin: 7px 0;
-	border: 1px solid #aaa;
-	border-radius: 5px;
-	background: transparent;
-}
-
-input{
-	height: 40px;
-	padding: 0 10px;
-}
-
-textarea{
-	padding: 10px;
-}
-
 .about{
 
 	.wheel{
@@ -251,7 +233,7 @@ textarea{
 		
 
         &-image{
-			&.chat{
+			&.chat-card{
 				background: url('../img/chat.png') center center/cover;
 			}
             position: absolute;
