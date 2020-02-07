@@ -1,10 +1,10 @@
 import React, {useRef, useEffect, useState} from 'react';
 import Peer from 'peerjs';
 import axios from 'axios';
-import paper, {Path} from 'paper/dist/paper-core';
 import './myChat.scss'
 import TextChat from './TextChat';
 import Modal from './Modal/Modal';
+import DrawDesk from './DrawDesk/DrawDesk';
 
 const callOptions={config: {'iceServers': [
 	{ url: 'stun:stun.l.google.com:19302' },
@@ -21,15 +21,21 @@ let streamCache;
 let callingUser;
 setInterval(wakeUp, 300000);
 let message;
-let path;
-const pathHistory = [];
 
 export default function Chat(props) {
-	const [state, setState] = useState({catchIt: false, calling: false, chatState: false, peer: new Peer(callOptions), localStream: null, peercall: null, rejected: false});
+	const [state, setState] = useState({
+		drawing: true, 
+		catchIt: false, 
+		calling: false, 
+		chatState: false, 
+		peer: new Peer(callOptions), 
+		localStream: null,
+		peercall: null, 
+		rejected: false
+	});
 	const [videoStream, setVideoStream] = useState([]);
 	const [selectedUser, setSelectedUser] = useState();
 	const video = useRef(null);
-	const draw = useRef(null);
 	const name = props.user.name;
 	const socket = props.socket;
 	const [peers, setPeers] = useState({});
@@ -68,48 +74,6 @@ export default function Chat(props) {
 				call.close();
 			}
 		});
-
-		paper.setup(draw.current);
-
-		draw.current.addEventListener('mousedown', onMouseDown);
-
-		function onMouseDown(event) {
-			if (path) {
-				path.selected = false;
-			}
-
-			console.log(pathHistory);
-
-			if(event.button === 2 && path){
-				pathHistory.forEach(item=> item.remove());
-			}
-
-		
-			path = new Path({
-				strokeColor: '#152238',
-				selected: true
-			});
-
-			pathHistory.push(path);
-
-			draw.current.addEventListener('mousemove', onMouseDrag);
-			draw.current.addEventListener('mouseup', onMouseUp);
-		}
-		
-		function onMouseDrag(event) {
-			if(path && event.layerX > 0){
-				path.add(event.layerX, event.layerY);
-			}
-		}
-		
-		function onMouseUp(event) {
-			if(path){
-				path.simplify();
-				path.selected = false;
-			}
-			draw.current.removeEventListener('mousemove', onMouseDrag);
-			draw.current.removeEventListener('mouseup', onMouseUp);
-		}
 }, []);
 
 useEffect(()=>{
@@ -192,41 +156,43 @@ useEffect(()=>{
 	}
 
 	return (
-		<div className="App">
-			<canvas id='draw' ref={draw}></canvas>
-			{state.rejected && <Modal message={message}></Modal>}
-			<div className={`users-list ${state.calling || state.chatState ? 'hidden' : ''}`}>
-				<ul onClick={checkUserToCall}>
-					<li className='header'><h1>Users List</h1><i className="far fa-comments chat-change" onClick={()=>setState({...state, chatState: true})}></i></li>
-					{Object.keys(peers).map((item, index)=> {
-						return(
-							<li data-name={item} className={`${selectedUser && selectedUser[item] && 'active'}`} data-number={peers[item]} key={index}><div className='user-name'>{item.slice(0, 2)}</div><p>{item}</p><div className="button">
-									<div onClick={state.catchIt ? confirm : callAnswer} className={`calling ${state.catchIt && state.peercall.peer === peers[item] ? 'pulse-button' : ''}`}>
-										<i className="fas fa-phone"></i>
+		<>
+			<DrawDesk drawing={[state, setState]}></DrawDesk>
+			<div className="App">
+				{state.rejected && <Modal message={message}></Modal>}
+				<div className={`users-list ${state.calling || state.chatState ? 'hidden' : ''}`}>
+					<ul onClick={checkUserToCall}>
+						<li className='header'><i className="fas fa-pencil-ruler drawing-mode" onClick={()=>setState({...state, drawing: true})}></i><h1>Users List</h1><i className="far fa-comments chat-change" onClick={()=>setState({...state, chatState: true})}></i></li>
+						{Object.keys(peers).map((item, index)=> {
+							return(
+								<li data-name={item} className={`${selectedUser && selectedUser[item] && 'active'}`} data-number={peers[item]} key={index}><div className='user-name'>{item.slice(0, 2)}</div><p>{item}</p><div className="button">
+										<div onClick={state.catchIt ? confirm : callAnswer} className={`calling ${state.catchIt && state.peercall.peer === peers[item] ? 'pulse-button' : ''}`}>
+											<i className="fas fa-phone"></i>
+										</div>
+										{state.catchIt && state.peercall.peer === peers[item] && (<div onClick={reject} className={`reject calling`}>
+											<i className="fas fa-phone-slash"></i>
+										</div>)}
 									</div>
-									{state.catchIt && state.peercall.peer === peers[item] && (<div onClick={reject} className={`reject calling`}>
-										<i className="fas fa-phone-slash"></i>
-									</div>)}
-								</div>
 								</li>
-						)})
-					}
-				</ul>
+							)})
+						}
+					</ul>
+				</div>
+				{state.calling &&
+					<div className={`video-chat ${!state.calling && 'hidden'}`}>
+						<Video></Video> 
+					</div>
+				}
+				{!state.calling &&
+				<>
+					<i onClick={()=>setState((state)=> ({...state, chatState: false}))} className={`fas fa-times close-button ${!state.chatState ? 'hidden' : ''}`}></i>
+					<div className={`text-chat ${!state.chatState && 'hidden'}`}>
+						<TextChat selectedUser={name} socket={socket}></TextChat>
+					</div>
+				</>
+				}
 			</div>
-			{state.calling &&
-				<div className={`video-chat ${!state.calling && 'hidden'}`}>
-					<Video></Video> 
-				</div>
-			}
-			{!state.calling &&
-			<>
-				<i onClick={()=>setState((state)=> ({...state, chatState: false}))} className={`fas fa-times close-button ${!state.chatState ? 'hidden' : ''}`}></i>
-				<div className={`text-chat ${!state.chatState && 'hidden'}`}>
-					<TextChat selectedUser={name} socket={socket}></TextChat>
-				</div>
-			</>
-			}
-		</div>
+		</>
 	);
 
 	function Video(){
