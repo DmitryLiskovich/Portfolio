@@ -207,6 +207,15 @@ height: 200px;
 	}
 }
 
+.hide-draw-desk{
+	display: none;
+}
+
+.drawing-mode{
+	margin-left: 15px;
+	cursor: pointer;
+}
+
 .pulse-button{
 box-shadow: 0 0 0 0 rgba(232, 76, 61, 0.7);
 -webkit-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);

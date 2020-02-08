@@ -80,16 +80,3 @@
 	justify-content: flex-start;
 	flex-wrap: wrap;
 }
-
-.submitButton{
-	background: #00a6d6 !important;
-	font-size: 18px;
-	color: #fff;
-	transition: ease-in-out 0.5s all;
-	cursor: pointer;
-
-	&:hover{
-		color: #fff;
-		background: #0087ad !important;
-	}
-}

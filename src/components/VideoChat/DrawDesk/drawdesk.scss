@@ -1,0 +1,36 @@
+.chat-drawing{
+	background: #fff;
+	height: calc(100vh - 112px);
+	width: 100%;
+	top: 56px;
+	position: absolute;
+	display: flex;
+	#draw{
+		height: 100% !important;
+		flex-grow: 1;
+	}
+
+	.drawing-mode{
+		position: absolute;
+		top: 21px;
+	}
+
+	&.hidden{
+		display: none;
+	}
+
+	.draw-tools{
+		width: 20%;
+		border-left: 2px solid #00000099;
+		padding: 10px;
+
+		ul{
+			padding: 0;
+			list-style: none;
+
+			li{
+				cursor: pointer;
+			}
+		}
+	}
+}
