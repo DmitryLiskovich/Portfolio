@@ -37,24 +37,27 @@ function About () {
 					onClick={()=> post > 1 ? setCurrentPost(currentPost-1) : setCurrentPost(currentPost)}></i>
 					<div className='about-section-3-slider-wrapper'>
 						<div className='about-section-3-slider-posts'>
-							<div className='about-section-3-slider-posts-wrapper' style={{transform: `translateX(${-(currentPost-1 )* 33.33}%)`}}>
-								<div className='about-section-3-slider-post first'>
+							<div className='about-section-3-slider-posts-wrapper' style={{transform: `translateX(${-(currentPost-1 )* 25}%)`}}>
+								<div className='about-section-3-slider-post'>
 									<h3>Sport</h3>
 									<p>One of my hobbies is sport. I started doing sport when I was 10 y.o. Now I can do many different flips. I think it's amazing when you can do what other people can’t.</p>
 								</div>
-								<div className='about-section-3-slider-post second'>
+								<div className='about-section-3-slider-post'>
 									<h3>3D models</h3>
 									<p>What can I say about that? I can create 3d models and it's cool. But now I have fallen in love with frontend developing.</p>
 								</div>
-								<div className= 'about-section-3-slider-post third'>
+								<div className= 'about-section-3-slider-post'>
 									<h3>Front-end</h3>
 									<p>I discovered frontend developing a few months ago. And now I like it so much, and I devote to it all my free time.</p>
+								</div>
+								<div className= 'about-section-3-slider-post'>
+                                <iframe src="https://www.youtube.com/embed/D0ucfj_V4PQ"></iframe>
 								</div>
 							</div>
 						</div>
 					</div>
-					<i className={`fas fa-chevron-right about-section-3-next ${currentPost === 3 ? 'hidden' : ''}`} 
-					onClick={()=>post < 3 ? setCurrentPost(currentPost+1) : setCurrentPost(currentPost)}></i>
+					<i className={`fas fa-chevron-right about-section-3-next ${currentPost === 4 ? 'hidden' : ''}`} 
+					onClick={()=>post < 4 ? setCurrentPost(currentPost+1) : setCurrentPost(currentPost)}></i>
 				</div>
             </div>
         );   

@@ -179,7 +179,7 @@
         &-card{
 			width: 100%;
 			margin: 10px;
-            max-width: 33%;
+            max-width: 25%;
             position: relative;
             transition: ease-in 1s transform;
             transform-style: preserve-3d;
@@ -356,23 +356,23 @@
 				}
 			}
 
-			&.first{
+			&:nth-child(1){
 				background: #00000088 url('../img/sport.jpg') center center/cover;
 			}
-			&.second{
+			&:nth-child(2){
 				background:#00000088 url('../img/work.jpg') center center/cover;
 			}
-			&.third{
+			&:nth-child(3){
 				background:#00000088 url('../img/front.png') center center/cover;
 			}
 
-			&.first,&.second,&.third{
+			&{
 				background-blend-mode: overlay;
 			}
 		}
 		
         &-slider-posts{
-			width: 300%;
+			width: 400%;
             display: flex;
 			&-wrapper{
 				transition: all ease-in-out 1s;
@@ -518,6 +518,13 @@
                 background: #00a6d6;
             }
         }
+    }
+
+    iframe{
+        height: 55vw;
+        width: 100%;
+
+        max-height: 100%;
     }
 }
 

@@ -1,14 +1,16 @@
 import React, {useState, useEffect, useRef} from 'react';
 import paper, {Path} from 'paper/dist/paper-core';
 import './drawdesk.scss';
+let path;
 
 export default function DrawDesk(props){
 	const [pathHistory, setPathHistory] = useState([]);
-	const draw = useRef(null);
 	const [state, setState] = props.drawing;
+	const [strokeWidthState, setStrokeWidth] = useState();
+	const draw = useRef(null);
+	const strokeWidth = useRef(null);
 
 	useEffect(()=>{
-		let path;
 		paper.setup(draw.current);
 		draw.current.addEventListener('mousedown', onMouseDown);
 
@@ -22,10 +24,9 @@ export default function DrawDesk(props){
 				setPathHistory([]);
 			}
 
-		
 			path = new Path({
 				strokeColor: '#152238',
-				selected: true
+				selected: true,
 			});
 
 			setPathHistory((state)=> ([...state, path]));
@@ -48,7 +49,13 @@ export default function DrawDesk(props){
 			draw.current.removeEventListener('mouseup', onMouseUp);
 		}
 		setState({...state, drawing: false})
+
+		strokeWidth.current.value = 1;
 	}, []);
+
+	if(path){
+		path.strokeWidth = strokeWidthState;
+	}
 
 	const selectLine = (e)=>{
 		if(e.target.tagName === 'LI'){
@@ -73,6 +80,10 @@ export default function DrawDesk(props){
 				<ul onClick={selectLine}>
 					{pathHistory.map((item, index) => <li data-index={index} key={index}>Line - {index} <i className="fas fa-trash-alt"></i></li>)}
 				</ul>
+				<div className='tools'>
+					{strokeWidthState}
+					<input onInput={(e) => setStrokeWidth(e.target.value)} ref={strokeWidth} type='range' min='1' max='100'></input>
+				</div>
 			</div>
 		</div>
 	</div>

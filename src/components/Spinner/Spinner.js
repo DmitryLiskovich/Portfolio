@@ -5,7 +5,7 @@ export default function Spinner(){
 	return(
 		<div className='spinner-wrapper'>
 			<div className='spinnerContainer'>
-				<div className="loader">Loading...</div>
+				<div className="loader"></div>
 			</div>
 		</div>
 	)
