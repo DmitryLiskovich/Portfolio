@@ -27,7 +27,6 @@ export default function Contact() {
 		}
 		setSpinner(false);
 	}catch(err){
-		console.log(err);
 		// setState({message: err.response.data.message, status: false});
 		setSpinner(false);
 	}

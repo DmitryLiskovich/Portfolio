@@ -1,8 +1,18 @@
-import React from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import './video.scss';
 
 export default function Video(props){
-  const {state, streams, myVideoStream} = props;
+  let {stateFull, streams, myVideoStream, peers} = props;
+  const [state, setState] = stateFull;
+
+  async function shareScreen(){
+	const stream = await navigator.mediaDevices.getDisplayMedia();
+	myVideoStream.current.srcObject = stream;
+	Object.keys(peers).forEach((item)=>{
+		state.peer.call(peers[item] ,stream);
+	})
+	setState((state) => ({...state, sharingStream: stream}));
+  }
 
   return(
     <>
@@ -18,6 +28,7 @@ export default function Video(props){
             <div onClick={()=> state.peercall ? state.peercall.close() : state.peer.close()} className="reject calling"><i className="fas fa-phone-slash"></i></div>
             <i className="fas fa-microphone"></i>
             <i className="fas fa-volume-up"></i>
+			<i onClick={shareScreen} className="fas fa-share-alt"></i>
           </div>
         </div>
       </div>

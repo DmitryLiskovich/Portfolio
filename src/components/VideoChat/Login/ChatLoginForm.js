@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, lazy, Suspense} from 'react';
 import Video from '../Chat';
 import io from 'socket.io-client';
 import './login.scss'
 import Spinner from '../Spinner/Spinner';
+// const Video = lazy(()=> import('../Chat'));
 
 let socket;
 
@@ -24,7 +25,6 @@ export default function Chat() {
 		}));
 		e.preventDefault();
 		socket.emit('join', e.target.room.value, e.target.name.value);
-		console.log('object');
 	}
 
 	useEffect(()=>{
@@ -40,7 +40,6 @@ export default function Chat() {
 		return ()=>{
 			socket.close();
 		}
-
 	}, [])
 
 	if(!state.loggined){
@@ -62,6 +61,8 @@ export default function Chat() {
 	}
 
 	return (
-		<Video socket={socket} user={state.users}></Video>
+		<Suspense fallback={<div className='spinner-main'><Spinner></Spinner></div>}>
+			<Video socket={socket} user={state.users}></Video>
+		</Suspense>
 	);
 }

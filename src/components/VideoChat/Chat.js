@@ -33,6 +33,7 @@ export default function Chat(props) {
 		localStream: null,
 		peercall: null, 
 		rejected: false,
+		sharingStream: null
 	});
 	const [videoStream, setVideoStream] = useState([]);
 	const [selectedUser, setSelectedUser] = useState();
@@ -40,6 +41,8 @@ export default function Chat(props) {
 	const name = props.user.name;
 	const socket = props.socket;
 	const [peers, setPeers] = useState({});
+
+	console.log(state);
 
 	useEffect(()=>{
 		state.peer.on('open', function(peerID) {
@@ -53,7 +56,7 @@ export default function Chat(props) {
 			setState((state)=> ({...state, peercall: user}));
 		})
 
-		socket.on('message', async (data)=>{
+		socket.on('message', (data)=>{
 			delete data[name];
 			setPeers(data);
 		})
@@ -65,7 +68,6 @@ export default function Chat(props) {
 					callingUser = call.peer;
 					call.on('close', (e)=>{
 						stream.getTracks().forEach(track => track.stop());
-						console.log(videoStream);
 						if(videoStream.length === 0){
 							setState((state)=> ({...state, calling: false}));
 						}
@@ -127,7 +129,7 @@ useEffect(()=>{
 		stream.getAudioTracks().enabled = false;
 		video.current.srcObject = stream;
 		if(streamRemote !== streamCache){
-			setVideoStream((state)=> ([...state, streamRemote]));
+			setVideoStream((state)=> ([streamRemote]));
 			streamCache = streamRemote;
 		}
 	}
@@ -171,7 +173,7 @@ useEffect(()=>{
 				</div>
 				{state.calling &&
 					<div className={`video-chat_from-chat ${!state.calling && 'hidden'}`}>
-						<Video myVideoStream={video} streams={videoStream} state={state}></Video> 
+						<Video myVideoStream={video} streams={videoStream} stateFull={([state, setState])} peers={peers}></Video> 
 					</div>
 				}
 				{!state.calling &&

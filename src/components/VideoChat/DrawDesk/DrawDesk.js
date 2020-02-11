@@ -12,7 +12,7 @@ export default function DrawDesk(props){
 
 	useEffect(()=>{
 		paper.setup(draw.current);
-		draw.current.addEventListener('mousedown', onMouseDown);
+		['mousedown', 'touchstart'].forEach((eventType) => draw.current.addEventListener(eventType, onMouseDown));
 
 		function onMouseDown(event) {
 			if (path) {
@@ -30,13 +30,15 @@ export default function DrawDesk(props){
 			});
 
 			setPathHistory((state)=> ([...state, path]));
-			draw.current.addEventListener('mousemove', onMouseDrag);
-			draw.current.addEventListener('mouseup', onMouseUp);
+			['mousemove', 'touchmove'].forEach((eventType) => draw.current.addEventListener(eventType, onMouseDrag));
+			['mouseup', 'touchend'].forEach((eventType) => draw.current.addEventListener(eventType, onMouseUp));
 		}
 		
 		function onMouseDrag(event) {
-			if(path && event.layerX > 0){
+			if(path && event.layerX && event.layerX > 0){
 				path.add(event.layerX, event.layerY);
+			}else{
+				path.add(event.targetTouches[0].pageX, event.targetTouches[0].pageY - 56);
 			}
 		}
 		
@@ -65,7 +67,6 @@ export default function DrawDesk(props){
 			pathHistory[+e.target.parentElement.getAttribute('data-index')].remove();
 			const newPaths = pathHistory;
 			newPaths.splice(+e.target.parentElement.getAttribute('data-index'), 1);
-			console.log(newPaths);
 			setPathHistory(history => [...newPaths]);
 		}
 	}
