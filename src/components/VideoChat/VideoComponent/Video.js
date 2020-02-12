@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React from 'react';
 import './video.scss';
 
 export default function Video(props){
@@ -8,8 +8,8 @@ export default function Video(props){
   async function shareScreen(){
 	const stream = await navigator.mediaDevices.getDisplayMedia();
 	myVideoStream.current.srcObject = stream;
-	Object.keys(peers).forEach((item)=>{
-		state.peer.call(peers[item] ,stream);
+	peers.forEach((item)=>{
+		state.peer.call(item.callId ,stream);
 	})
 	setState((state) => ({...state, sharingStream: stream}));
   }
@@ -22,7 +22,7 @@ export default function Video(props){
             <video className='my' ref={myVideoStream} autoPlay></video>
           </div>
           <div className='video-chat__wrap_remote'>
-            {streams.map((item, index)=> (item.active ? <video className="video" width='auto' autoPlay key={index} ref={currentVideoEl => currentVideoEl ? currentVideoEl.srcObject = item : ''}></video> : ''))}
+            {streams.map((item, index)=> (item.stream.active ? <video className="video" width='auto' autoPlay key={index} ref={currentVideoEl => currentVideoEl ? currentVideoEl.srcObject = item.stream : ''}></video> : ''))}
           </div>
           <div className='button-section'>
             <div onClick={()=> state.peercall ? state.peercall.close() : state.peer.close()} className="reject calling"><i className="fas fa-phone-slash"></i></div>

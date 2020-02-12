@@ -7,7 +7,8 @@ import Spinner from '../Spinner/Spinner';
 
 let socket;
 
-socket = io.connect('https://rocky-reef-68087.herokuapp.com');
+// socket = io.connect('https://rocky-reef-68087.herokuapp.com');
+socket = io.connect('http://localhost:8080/');
 
 export default function Chat() {
 	const [state, setState] = useState({

@@ -8,20 +8,19 @@ import DrawDesk from './DrawDesk/DrawDesk';
 import Video from './VideoComponent/Video';
 
 const callOptions={config: {'iceServers': [
-	{ url: 'stun:stun.l.google.com:19302' },
-]}
+		{ url: 'stun:stun.l.google.com:19302' },
+	]}
 };
 
-navigator.getUserMedia = ( navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
 
 function wakeUp(){
 	axios.get('https://rocky-reef-68087.herokuapp.com/email');
-	// axios.get('http://localhost:8080/email');
 }
 let streamCache;
 let callingUser;
 setInterval(wakeUp, 300000);
 let message;
+let userCalling;
 
 export default function Chat(props) {
 	const [state, setState] = useState({
@@ -36,17 +35,14 @@ export default function Chat(props) {
 		sharingStream: null
 	});
 	const [videoStream, setVideoStream] = useState([]);
-	const [selectedUser, setSelectedUser] = useState();
 	const video = useRef(null);
 	const name = props.user.name;
 	const socket = props.socket;
-	const [peers, setPeers] = useState({});
-
-	console.log(state);
+	const [peers, setPeers] = useState([]);
 
 	useEffect(()=>{
 		state.peer.on('open', function(peerID) {
-			socket.send(peerID);
+			socket.send({peerID, name});
 		});
 
 		state.peer.on('connection', (user)=>{
@@ -57,95 +53,91 @@ export default function Chat(props) {
 		})
 
 		socket.on('message', (data)=>{
-			delete data[name];
-			setPeers(data);
+			setPeers(data.filter(item => item.userName !== name));
 		})
 
 		state.peer.on('call', function(call) {
 			if(navigator.getUserMedia){
-				navigator.getUserMedia({video: true, audio: false}, (stream)=>{
-					call.answer(stream);
-					callingUser = call.peer;
-					call.on('close', (e)=>{
-						stream.getTracks().forEach(track => track.stop());
-						if(videoStream.length === 0){
-							setState((state)=> ({...state, calling: false}));
-						}
-					})
-					call.on('stream', (remoteStream)=> setRemoteStream(remoteStream, stream))
-					setState((state)=> ({...state, catchIt: false, calling: true, peercall: call}))
-				}, error);
+				createConnection('answer', call, userCalling);
 			}else{
 				call.close();
 			}
 		});
-}, []);
+	}, []);
 
-useEffect(()=>{
-	if(selectedUser){
-		setState((state)=> ({...state, chatState: true}));
-	}else{
-		setState((state)=> ({...state, chatState: false}));
+	async function createConnection(type, peerCall, userCalling){
+		const stream = await navigator.mediaDevices.getUserMedia({video: true, audio: false});
+		let peer = peerCall;
+		if(type === 'answer'){
+			peerCall.answer(stream);
+			callingUser = peerCall.peer;
+			setState((state)=> ({...state, catchIt: false, calling: true, peercall: peer}))
+		}else{
+			peer = peer.call(callingUser, stream);
+			setState((state)=> ({...state, calling: true, peercall: peer}));
+		}
+		peer.on('stream', (remoteStream)=> setRemoteStream(remoteStream, stream, userCalling))
+		peer.on('close', (e)=>{
+			stream.getTracks().forEach(track => track.stop());
+			if(videoStream.length === 0){
+				setState((state)=> ({...state, calling: false}));
+			}
+		});
 	}
-}, [selectedUser]);
 
-	function callAnswer(e){
+	function errConnectionMessage(errMessage){
+		message = errMessage;
+		setState((state)=> ({...state, rejected: true}))
+		setTimeout(()=>{
+			setState((state)=> ({...state, rejected: false}))
+		}, 5000);
+	}
+
+	function call(e){
 		callingUser = e.currentTarget.parentElement.parentElement.getAttribute('data-number');
 		const connect = state.peer.connect(callingUser);
 		connect.on('open', ()=>{
 			connect.on('data', (data)=>{
-				if(data !== 'rejected'){
+				if(data.type !== 'rejected'){
 					if(navigator.getUserMedia){
-						navigator.getUserMedia({video: true, audio: false}, (stream)=>{
-							let peer = state.peer.call(callingUser, stream);
-							peer.on('stream', (remoteStream)=> setRemoteStream(remoteStream, stream))
-							peer.on('close', (e)=>{
-								stream.getTracks().forEach(track => track.stop());
-								setState((state)=> ({...state, calling: false}));
-							})
-							setState((state)=> ({...state, calling: true, peercall: peer}));
-						}, error);
+						createConnection('call', state.peer, data.user);
 					}else{
-						message = "You don't have web camera or you have http connection";
-						setState((state)=> ({...state, rejected: true}))
-						setTimeout(()=>{
-							setState((state)=> ({...state, rejected: false}))
-						}, 5000);
+						errConnectionMessage("You don't have web camera or you have http connection");
 						return;
 					}
-				}else if(data === 'rejected'){
-					message = 'Your call has been rejected';
-					setState((state)=> ({...state, rejected: true}))
-					setTimeout(()=>{
-						setState((state)=> ({...state, rejected: false}))
-					}, 5000);
+				}else if(data.type === 'rejected'){
+					errConnectionMessage("Your call has been rejected");
 				}
 			});
-			connect.send('request')
+			connect.send({type: 'request', user: name});
 		});
 	}
 
-	function setRemoteStream(streamRemote, stream){
+	function setRemoteStream(streamRemote, stream, userCalling){
 		stream.getAudioTracks().enabled = false;
+		console.log(userCalling)
 		video.current.srcObject = stream;
+		const currentStreamArray = videoStream;
+		currentStreamArray.forEach(item => {
+			if(userCalling === item.user){
+				item.stream = streamRemote;
+			}
+		})
 		if(streamRemote !== streamCache){
-			setVideoStream((state)=> ([streamRemote]));
+			setVideoStream((state)=> ([...state, {user: userCalling, stream: streamRemote}]));
 			streamCache = streamRemote;
 		}
 	}
 
 	function reject(){
-		state.peercall.send('rejected');
+		state.peercall.send({type: 'rejected', user: name});
 		setState((state)=> ({...state, calling: false, catchIt: false, peercall: null}));
 	}
 
-	function confirm(){
-		state.peercall.send('accepted');
+	function confirm(e){
+		userCalling = e.currentTarget.parentElement.parentElement.getAttribute('data-name');
+		state.peercall.send({type: 'accepted', user: name});
 		setState((state)=> ({...state, calling: false, catchIt: false, peercall: null}));
-	}
-
-	function error(e){
-		alert(`Ошибка: ${e}`)
 	}
 
 	return (
@@ -156,13 +148,13 @@ useEffect(()=>{
 				<div className={`users-list ${state.calling || state.chatState ? 'hidden' : ''}`}>
 					<ul >
 						<li className='header'><i className="fas fa-pencil-ruler drawing-mode" onClick={()=>setState({...state, drawing: true})}></i><h1>Users List</h1><i className="far fa-comments chat-change" onClick={()=>setState({...state, chatState: true})}></i></li>
-						{Object.keys(peers).map((item, index)=> {
+						{peers.map((item, index)=> {
 							return(
-								<li data-name={item} className={`${selectedUser && selectedUser[item] && 'active'}`} data-number={peers[item]} key={index}><div className='user-name'>{item.slice(0, 2)}</div><p>{item}</p><div className="button">
-										<div onClick={state.catchIt ? confirm : callAnswer} className={`calling ${state.catchIt && state.peercall.peer === peers[item] ? 'pulse-button' : ''}`}>
+								<li data-name={item.userName} data-number={item.callId} key={index}><div className='user-name'>{item.userName.slice(0, 2)}</div><p>{item.userName}</p><div className="button">
+										<div onClick={state.catchIt ? confirm : call} className={`calling ${state.catchIt && state.peercall.peer === item.callId ? 'pulse-button' : ''}`}>
 											<i className="fas fa-phone"></i>
 										</div>
-										{state.catchIt && state.peercall.peer === peers[item] && (<div onClick={reject} className={`reject calling`}>
+										{state.catchIt && state.peercall.peer === item.callId && (<div onClick={reject} className={`reject calling`}>
 											<i className="fas fa-phone-slash"></i>
 										</div>)}
 									</div>
