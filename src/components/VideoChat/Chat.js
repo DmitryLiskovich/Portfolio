@@ -36,6 +36,7 @@ export default function Chat(props) {
 		rejected: false,
 		sharingStream: null,
 		name: name,
+		sharingState: false
 	});
 	const [videoStream, setVideoStream] = useState([]);
 	const video = useRef(null);
