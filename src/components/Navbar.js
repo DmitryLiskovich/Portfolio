@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { HashRouter as Router, Link } from 'react-router-dom';
+import { HashRouter as Router, NavLink } from 'react-router-dom';
 import './navbar.scss'
 
 export default function Navigate(){
@@ -33,23 +33,23 @@ export default function Navigate(){
 				</div>
 				<div className="navbar-list">
 					<ul onClick={()=> setIsOpen(false)} className="navbar-nav">
-					<li className="nav-item active">
-						<Link className="nav-link" to='/about'>About</Link>
+					<li className="nav-item">
+						<NavLink activeClassName='active' className="nav-link" to='/about'>About</NavLink>
 					</li>
 					<li className="nav-item">
-						<Link className="nav-link" to='/note'>Notes</Link>
+						<NavLink activeClassName='active' className="nav-link" to='/note'>Notes</NavLink>
 					</li>
 					<li className="nav-item">
-						<Link className="nav-link" to='/weather'>Weather</Link>
+						<NavLink activeClassName='active' className="nav-link" to='/weather'>Weather</NavLink>
 					</li>
 					<li className="nav-item">
-						<Link className="nav-link" to='/contact'>Contact</Link>
+						<NavLink activeClassName='active' className="nav-link" to='/contact'>Contact</NavLink>
 					</li>
 					<li className="nav-item">
-						<Link className="nav-link" to='/task'>Tasks</Link>
+						<NavLink activeClassName='active' className="nav-link" to='/task'>Tasks</NavLink>
 					</li>
 					<li className="nav-item">
-						<Link className="nav-link" to='/chat'>WebRTC/socket chat</Link>
+						<NavLink activeClassName='active' className="nav-link" to='/chat'>WebRTC/socket chat</NavLink>
 					</li>
 					</ul>
 					<div className="form-inline">

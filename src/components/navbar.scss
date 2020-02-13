@@ -39,13 +39,6 @@
 		color: #fff !important;
 		opacity: 0.9;
 	}
-	&.active{
-		background: #00000088;
-		li a, h6{
-			color: #fff !important;
-			opacity: 0.9;
-		}
-	}
 	&-toggler{
 		display: none;
 	}
@@ -93,6 +86,11 @@
 			font-size: 20px;
 		}
 	}
+}
+
+.active{
+	border-bottom: solid #ffffff88 1px;
+	transition: none;
 }
 
 @media screen and (max-width: 767px){

@@ -21,8 +21,10 @@ let callingUser;
 setInterval(wakeUp, 300000);
 let message;
 let userCalling;
+let sharingUser;
 
 export default function Chat(props) {
+	const name = props.user.name;
 	const [state, setState] = useState({
 		drawing: true, 
 		catchIt: false, 
@@ -32,11 +34,11 @@ export default function Chat(props) {
 		localStream: null,
 		peercall: null, 
 		rejected: false,
-		sharingStream: null
+		sharingStream: null,
+		name: name,
 	});
 	const [videoStream, setVideoStream] = useState([]);
 	const video = useRef(null);
-	const name = props.user.name;
 	const socket = props.socket;
 	const [peers, setPeers] = useState([]);
 
@@ -54,6 +56,10 @@ export default function Chat(props) {
 
 		socket.on('message', (data)=>{
 			setPeers(data.filter(item => item.userName !== name));
+		})
+
+		socket.on('share-screen-user', (data)=>{
+			sharingUser = data;
 		})
 
 		state.peer.on('call', function(call) {
@@ -78,6 +84,12 @@ export default function Chat(props) {
 		}
 		peer.on('stream', (remoteStream)=> setRemoteStream(remoteStream, stream, userCalling))
 		peer.on('close', (e)=>{
+			videoStream.forEach(item => {
+				item.stream.getTracks().forEach(track => track.stop())
+				if(item.sharingStream){
+					item.sharingStream.getTracks().forEach(track => track.stop())
+				}
+			})
 			stream.getTracks().forEach(track => track.stop());
 			if(videoStream.length === 0){
 				setState((state)=> ({...state, calling: false}));
@@ -115,14 +127,16 @@ export default function Chat(props) {
 
 	function setRemoteStream(streamRemote, stream, userCalling){
 		stream.getAudioTracks().enabled = false;
-		console.log(userCalling)
 		video.current.srcObject = stream;
-		const currentStreamArray = videoStream;
-		currentStreamArray.forEach(item => {
-			if(userCalling === item.user){
-				item.stream = streamRemote;
-			}
-		})
+		if(sharingUser){
+			const newStream = videoStream.map(item=>{
+				if(sharingUser === item.user){
+					item.sharingStream = streamRemote;
+				}
+				return item;
+			})
+			setVideoStream(newStream);
+		}
 		if(streamRemote !== streamCache){
 			setVideoStream((state)=> ([...state, {user: userCalling, stream: streamRemote}]));
 			streamCache = streamRemote;
@@ -165,7 +179,7 @@ export default function Chat(props) {
 				</div>
 				{state.calling &&
 					<div className={`video-chat_from-chat ${!state.calling && 'hidden'}`}>
-						<Video myVideoStream={video} streams={videoStream} stateFull={([state, setState])} peers={peers}></Video> 
+						<Video socket={socket} myVideoStream={video} streams={videoStream} stateFull={([state, setState])} peers={peers}></Video> 
 					</div>
 				}
 				{!state.calling &&

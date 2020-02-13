@@ -2,7 +2,7 @@ import React from 'react';
 import './video.scss';
 
 export default function Video(props){
-  let {stateFull, streams, myVideoStream, peers} = props;
+  let {stateFull, streams, myVideoStream, peers, socket} = props;
   const [state, setState] = stateFull;
 
   async function shareScreen(){
@@ -10,6 +10,7 @@ export default function Video(props){
 	myVideoStream.current.srcObject = stream;
 	peers.forEach((item)=>{
 		state.peer.call(item.callId ,stream);
+		socket.emit('share-screen-user', state.name);
 	})
 	setState((state) => ({...state, sharingStream: stream}));
   }
@@ -22,7 +23,7 @@ export default function Video(props){
             <video className='my' ref={myVideoStream} autoPlay></video>
           </div>
           <div className='video-chat__wrap_remote'>
-            {streams.map((item, index)=> (item.stream.active ? <video className="video" width='auto' autoPlay key={index} ref={currentVideoEl => currentVideoEl ? currentVideoEl.srcObject = item.stream : ''}></video> : ''))}
+            {streams.map((item, index)=> (item.stream.active || item.sharingStream.active ? <video className="video" width='auto' autoPlay key={index} ref={currentVideoEl => currentVideoEl ? currentVideoEl.srcObject = item.sharingStream || item.stream : ''}></video> : ''))}
           </div>
           <div className='button-section'>
             <div onClick={()=> state.peercall ? state.peercall.close() : state.peer.close()} className="reject calling"><i className="fas fa-phone-slash"></i></div>
