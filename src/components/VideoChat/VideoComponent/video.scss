@@ -21,13 +21,19 @@
     max-height: 100%;
     flex-wrap: wrap;
     video{
-      width: 30vw;
+      width: 100%;
+      max-height: 80vh;
 
       @media screen and (max-width: 767px) {
         width: 100vw;
       }
     }
   }
+}
+
+.video-wrapper{
+  width: min-content;
+  min-width: 50%;
 }
 
 .button-section{

@@ -23,7 +23,7 @@ export default function Video(props){
             <video className='my' ref={myVideoStream} autoPlay></video>
           </div>
           <div className='video-chat__wrap_remote'>
-            {streams.map((item, index)=> (item.stream.active || item.sharingStream.active ? <video className="video" width='auto' autoPlay key={index} ref={currentVideoEl => currentVideoEl ? currentVideoEl.srcObject = item.sharingStream || item.stream : ''}></video> : ''))}
+            {streams.map((item, index)=> (item.stream.active || item.sharingStream.active ? <div className='video-wrapper'><video className="video" width='auto' autoPlay key={index} ref={currentVideoEl => currentVideoEl ? currentVideoEl.srcObject = item.sharingStream || item.stream : ''}></video></div> : ''))}
           </div>
           <div className='button-section'>
             <div onClick={()=> state.peercall ? state.peercall.close() : state.peer.close()} className="reject calling"><i className="fas fa-phone-slash"></i></div>
