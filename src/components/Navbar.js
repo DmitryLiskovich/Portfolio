@@ -3,18 +3,7 @@ import { HashRouter as Router, NavLink } from 'react-router-dom';
 import './navbar.scss'
 
 export default function Navigate(){
-    const [navbarState, setNavbarState] = useState(false);
 	const [isOpen, setIsOpen] = useState(false);
-
-    useEffect(()=>{
-		window.addEventListener('scroll', ()=>{
-			if(window.scrollY > 56){
-				setNavbarState(true)
-			}else{
-				setNavbarState(false)
-			}
-		});
-	}, []);
 	
 	useEffect(()=>{
 		if(isOpen){
@@ -27,7 +16,7 @@ export default function Navigate(){
 	return (
 		<div className="nav-position">
 			<Router>
-				<nav className={`navbar ${navbarState && !isOpen ? 'active' : ''} ${isOpen ? 'open' : ''}`}>
+				<nav className={`navbar ${isOpen ? 'open' : ''}`}>
 				<div className='react-sign'>
 					<a href='https://github.com/DmitryLiskovich'><i className="fab fa-react"></i></a>
 				</div>
