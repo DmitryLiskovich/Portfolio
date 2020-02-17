@@ -72,6 +72,10 @@ export default function Chat(props) {
 		});
 	}, []);
 
+	useEffect(()=>{
+		setState((state)=> ({...state, sharingState: !!state.sharingStream}))
+	}, [state.sharingStream])
+
 	async function createConnection(type, peerCall, userCalling){
 		const stream = await navigator.mediaDevices.getUserMedia({video: true, audio: false});
 		let peer = peerCall;
