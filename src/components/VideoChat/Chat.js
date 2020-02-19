@@ -133,19 +133,23 @@ export default function Chat(props) {
 	function setRemoteStream(streamRemote, stream, userCalling){
 		stream.getAudioTracks().enabled = false;
 		video.current.srcObject = stream;
-		if(sharingUser){
-			const newStream = videoStream.map(item=>{
-				if(sharingUser === item.user){
-					item.sharingStream = streamRemote;
-				}
-				return item;
-			})
-			setVideoStream(newStream);
+		const newStream = videoStream.reduce((streamArray, item)=>{
+			if(sharingUser === item.user){
+				item.stream.getTracks().forEach(track => track.stop());
+				item.stream = streamRemote;
+			}
+			streamArray.push(item);
+			return streamArray;
+		}, []);
+		console.log(newStream);
+		if(!newStream.length){
+			newStream.push({user: userCalling, stream: streamRemote});
 		}
-		if(streamRemote !== streamCache){
-			setVideoStream((state)=> ([...state, {user: userCalling, stream: streamRemote}]));
-			streamCache = streamRemote;
-		}
+		setVideoStream(newStream);
+		// if(streamRemote !== streamCache){
+		// 	setVideoStream((state)=> ([...state, {user: userCalling, stream: streamRemote}]));
+		// 	streamCache = streamRemote;
+		// }
 	}
 
 	function reject(){
