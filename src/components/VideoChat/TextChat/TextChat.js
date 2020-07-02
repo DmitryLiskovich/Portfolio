@@ -1,72 +1,77 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState, useEffect, useRef, useContext} from 'react';
+import { Socket } from '../../../socketContext/socket';
+import { MessageBox } from '../MessageBox/MessageBox';
+import Spinner from '../Spinner/Spinner';
+import axios from 'axios';
 import './TextChat.scss';
 
-function TextChat(props) {
-	const [messages, setMessage] = useState([]);
-  const [isTyping, setIsTyping] = useState({state: false, name: null});
-  const selectedUser = props.selectedUser;
-  const socket = props.socket;
-	let input = '';
-	// localStorage.setItem('messages', JSON.stringify(messages));
-	const wrap = useRef(null);
-	const button = useRef(null);
+export function TextChat({selectedUser}) {
+  const socket = useContext(Socket);
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState();
+  const [spinner, setSpinner] = useState(false);
+  const [currentUser, setCurrentUser] = useState({});
+  const messageBox = useRef(null);
 
-	useEffect(() => {
-		if(wrap.current){
-			wrap.current.scrollTop = wrap.current.scrollHeight;
-		}
-	}, [messages]);
-  
-  useEffect(() => {
-		socket.on('message-from', (data)=>{
-			if(data.type === 'typing'){
-				setIsTyping({state: true, name: data.message});
-			}else if(data.type === 'connect'){
-				setMessage((messages) => [...messages, {message: data.message, id: null}]);
-			}else if(data.type === 'typing-end'){
-				setIsTyping({state: false, name: null});
-			}else{
-				setMessage((messages) => [...messages, {message: data.input, id: data.id}]);
-			}
-		});
-	}, []);
+  useEffect(()=>{
+    setSpinner(true)
+    axios.get('http://localhost:8000/users', {withCredentials: true}).then(data => {
+      const userInfo = data.data;
+      setCurrentUser(userInfo);
+      if(userInfo.id === selectedUser.id) {
+        window.location.reload();
+        return;
+      }
+      const room = userInfo.sessions && userInfo.sessions[selectedUser.id] ? userInfo.sessions[selectedUser.id] : 'new';
+      socket.emit('join', room, [userInfo.id, selectedUser.id]);
 
-	function sendData(e){
-		e.preventDefault();
-		socket.emit('message-from', {input: input, id: selectedUser});
-		setMessage([...messages, {message: input, id: `You`}]);
-		e.target.message.value = '';
-		button.current.focus();
-	}
+      socket.on('message', (message) => {
+        console.log(message);
+        setMessages(messages => [...messages, message]);
+      })
+
+      socket.on('messages', data => {
+        setMessages(data.map(message => message));
+      })
+      setSpinner(false);
+    });
+
+    return () => {
+      socket.emit('leave')
+      socket.removeAllListeners('message');
+      socket.removeAllListeners('messages');
+    }
+  }, [selectedUser.id]);
+
+  function sendData(e) {
+    e.preventDefault(e);
+    setMessages(messages => [...messages, {
+      message: input,
+      user: currentUser.id,
+      date: new Date()
+    }]);
+    socket.send(input);
+  }
 
 	return (
 		<div className="TextChat">
-			<div ref={wrap} className='messages-wrap'>
-				{messages.map((item, index)=>{
-					const my = item.id === 'You';
-					if(!item.id){
-						return(
-							<div key={index} className={`message-connect`}>
-								<p>{item.message}</p>
-							</div>
-						)
-					}
-					return(
-						<div key={index} className={`message ${my && 'my_message'}`}>
-							<p>{item.message}</p>
-							<p className='id'>{item.id}</p>
-						</div>
-					)
-				})}
+      <div className="chat-controller">
+        <h2>Chat with {selectedUser.username.slice(3)}</h2>
+        <div className="buttons">
+          <i className="fas fa-user-plus"></i>
+          <i className="fas fa-phone"></i>
+        </div>
+      </div>
+			<div ref={messageBox} className='messages-wrap'>
+				<MessageBox messages={messages} user={currentUser}></MessageBox>
 			</div>
 			<div className='input'>
 				<form onSubmit={sendData}>
-					<input ref={button} name='message' placeholder={isTyping.state ? isTyping.name : 'message'} onInput={()=>socket.emit('typing...')} onChange={(e)=> {input=e.target.value;}} type='text'></input>
+					<input name='message' onInput={(e) => setInput(e.target.value)} type='text'></input>
 					<button type='submit'>Send</button>
 				</form>
 			</div>
+      {spinner && <Spinner/>}
 		</div>
 	);
 }
-
-export default TextChat;
