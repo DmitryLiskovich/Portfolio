@@ -5,13 +5,14 @@ import Spinner from '../Spinner/Spinner';
 import axios from 'axios';
 import './TextChat.scss';
 
-export function TextChat({selectedUser}) {
+export function TextChat({selectedUser, setCallStatus, call}) {
   const socket = useContext(Socket);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState();
   const [spinner, setSpinner] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const messageBox = useRef(null);
+  const inputRef = useRef(null);
 
   useEffect(()=>{
     setSpinner(true)
@@ -26,12 +27,11 @@ export function TextChat({selectedUser}) {
       socket.emit('join', room, [userInfo.id, selectedUser.id]);
 
       socket.on('message', (message) => {
-        console.log(message);
         setMessages(messages => [...messages, message]);
       })
 
       socket.on('messages', data => {
-        setMessages(data.map(message => message));
+        setMessages(data);
       })
       setSpinner(false);
     });
@@ -43,14 +43,25 @@ export function TextChat({selectedUser}) {
     }
   }, [selectedUser.id]);
 
+  useEffect(()=>{
+    messageBox.current.scrollBy(0, messageBox.current.scrollHeight);
+  }, [messages])
+
   function sendData(e) {
     e.preventDefault(e);
+    setInput('');
     setMessages(messages => [...messages, {
       message: input,
       user: currentUser.id,
       date: new Date()
     }]);
     socket.send(input);
+    inputRef.current.focus();
+  }
+
+  function inputHendler(e){
+    e.persist();
+    setInput(e.target.value);
   }
 
 	return (
@@ -59,15 +70,15 @@ export function TextChat({selectedUser}) {
         <h2>Chat with {selectedUser.username.slice(3)}</h2>
         <div className="buttons">
           <i className="fas fa-user-plus"></i>
-          <i className="fas fa-phone"></i>
+          <i onClick={() => setCallStatus({type: 'startCall', user: selectedUser})} className="fas fa-phone"></i>
         </div>
       </div>
 			<div ref={messageBox} className='messages-wrap'>
 				<MessageBox messages={messages} user={currentUser}></MessageBox>
 			</div>
 			<div className='input'>
-				<form onSubmit={sendData}>
-					<input name='message' onInput={(e) => setInput(e.target.value)} type='text'></input>
+				<form autoComplete='off' onSubmit={sendData}>
+					<input name='message' ref={inputRef} value={input} placeholder='Type something...' onInput={inputHendler} type='text'></input>
 					<button type='submit'>Send</button>
 				</form>
 			</div>

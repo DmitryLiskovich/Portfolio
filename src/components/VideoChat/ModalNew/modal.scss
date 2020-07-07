@@ -1,0 +1,56 @@
+.modal-frame {
+  position: absolute;
+  top: 116px;
+  right: 0px;
+  background: #152238;
+  color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  z-index: 999;
+  transition: ease-in-out .5s all;
+
+  &.show {
+    transform: translateX(0);
+  }
+
+  &.hide {
+    transform: translateX(100%);
+  }
+
+  h2 {
+    margin-bottom: 20px;
+  }
+
+  .modal-controls {
+    display: flex;
+    justify-content: space-around;
+
+    i {
+      height: 40px;
+      width: 40px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+    }
+
+    i:first-child {
+      background: #cd0000
+    }
+
+    i:last-child {
+      background: #6B8E23
+    }
+  }
+}
+
+@keyframes modalAnime {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}

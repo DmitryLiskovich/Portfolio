@@ -218,3 +218,9 @@
     opacity: 1;
   }
 }
+
+input, button {
+  &:focus {
+    outline: none;
+  }
+}

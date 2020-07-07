@@ -1,0 +1,87 @@
+.video-chat {
+  position: absolute;
+  height: 100%;
+  background: #e4eef2;
+  right: 0;
+  width: 77%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  i {
+    color: #fff;
+    height: 40px;
+    width: 40px;
+    background: #cd0000;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin: 0 10px;
+
+  }
+
+  .video-chat-controll {
+    width: 100%;
+    background: linear-gradient(0deg, rgba(0,0,0,.5) 0%, rgba(0,0,0,0) 100%);
+    position: absolute;
+    bottom: 0;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .started-calling {
+    font-size: 64px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 120px;
+    width: 120px;
+    color: #fff;
+    border-radius: 50%;
+    position: relative;
+    z-index: 1;
+    background: #6b8e23;
+    animation: call 2s ease-in-out infinite;
+
+  }
+  .animate {
+    height: 120px;
+    border-radius: 50%;
+    width: 120px;
+    position: absolute;
+    animation: puls 2s ease-in-out infinite;
+    z-index: 1;
+    background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 100%);
+  }
+
+}
+
+@keyframes puls {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(2);
+  }
+}
+
+@keyframes call {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}

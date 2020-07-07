@@ -3,4 +3,12 @@
   position: relative;
   top: 56px;
   height: calc(100vh - 112px);
+  overflow: hidden;
+
+  video {
+    position: relative;
+    height: calc(100vh - 112px);
+    width: 100%;
+    object-fit: cover;
+  }
 }

@@ -5,6 +5,19 @@ import { UserInfo } from '../ChatLayout'
 export const UserList = React.memo(function UserList({usersList, pageState, setSelectedUser}) {
   const [users, setUsers] = useState([]);
   const userInfo = useContext(UserInfo);
+  const [find, setFind] = useState([]);
+  const [filtredUsers, setFiltredUsers] = useState([]);
+
+  const findUser = (e) => {
+    e.persist();
+    setFind(e.target.value);
+    setFiltredUsers(() => {
+      return usersList.filter(item => item.login !== userInfo.login && item.first_name.includes(find) || item.last_name.includes(find))
+    });
+    if (!e.target.value) {
+      setFiltredUsers([]);
+    }
+  }
 
   useEffect(()=>{
     setUsers(usersList);
@@ -31,6 +44,17 @@ export const UserList = React.memo(function UserList({usersList, pageState, setS
     window.location.reload();
   }
 
+  function getUsersList(arr) {
+    return arr.map((user, index) => {
+      const bg = getRandom(16777214).padEnd(7, '0');
+      const clr = hexContrastCalc(bg);
+      if(user.login === userInfo.login) {
+        return ''
+      }
+      return <li onClick={selectUser} key={index} data-id={user.id}><span style={{background: bg, color: clr ? '#fff' : '#000'}}>{user.first_name[0]}{user.last_name[0]}</span>{user.first_name} {user.last_name}</li>
+    })
+  }
+
   return (
     <div className='user-list-wrapper'>
       <div className='user-info'>
@@ -41,16 +65,9 @@ export const UserList = React.memo(function UserList({usersList, pageState, setS
         <button className="user-changer">My Contacts</button>
         <button className="user-changer">All Users</button>
       </div>
-      <input type="text" className="find user" value='Enter first and last name'></input>
+      <input type="text" value={find} onChange={findUser} className="find user" placeholder="Start typing"></input>
       <ul className='user-list'>
-        {users.map((user, index) => {
-          const bg = getRandom(16777214).padEnd(7, '0');
-          const clr = hexContrastCalc(bg);
-          if(user.login === userInfo.login) {
-            return ''
-          }
-          return <li onClick={selectUser} key={index} data-id={user.id}><span style={{background: bg, color: clr ? '#fff' : '#000'}}>{user.first_name[0]}{user.last_name[0]}</span>{user.first_name} {user.last_name}</li>
-        })}
+        {filtredUsers.length || find.length ? getUsersList(filtredUsers) : getUsersList(users)}
       </ul>
     </div>
   )
