@@ -36,6 +36,7 @@ export function VideoChat({callNumber, myNumber, callStatus, setCallStatus}) {
             return;
           }
           setCallState({type:'incomingRequest', data: data.data});
+          setConnection(conn);
         })
       })
     }
@@ -46,6 +47,13 @@ export function VideoChat({callNumber, myNumber, callStatus, setCallStatus}) {
       const conn = peerState.peer.connect(callNumber);
       conn.on('open', ()=>{
         conn.send({type: 'request', data: myNumber});
+      })
+
+      conn.on('data', (data)=>{
+        if(data.type === 'rejected') {
+          setCallState({});
+          setCallStatus({type: 'ended'});
+        }
       })
       setConnection(conn);
     }
@@ -86,11 +94,17 @@ export function VideoChat({callNumber, myNumber, callStatus, setCallStatus}) {
     }
   }
 
-  if(callState?.type === 'call' || callStatus.type === 'startCall') {
+  function reject() {
+    connection.send({type: 'rejected'});
+    setCallStatus({type: 'ended'});
+    setCallState({});
+  }
+
+  // if(callState?.type === 'call' || callStatus.type === 'startCall') {
     return (
       <>
-        <Modal className={callState?.type === 'incomingRequest' ? 'show':'hide'} accept={call}></Modal>
-        <div className='video-chat'>
+        <Modal className={callState?.type === 'incomingRequest' ? 'show':'hide'} reject={reject} accept={call}></Modal>
+        <div className={`video-chat ${callState?.type === 'call' || callStatus.type === 'startCall' ? 'video-active' : 'video-hide'}`}>
           {callStatus.type === 'startCall' && <><div className='animate'/><div className='started-calling'>{callStatus.user.username.slice(0, 2)}</div></>}
           {callStatus.type !== 'startCall' && <video autoPlay ref={(video) => video && remoteStream ? video.srcObject = remoteStream : ''}></video>}
           <div className='video-chat-controll'>
@@ -100,7 +114,7 @@ export function VideoChat({callNumber, myNumber, callStatus, setCallStatus}) {
         </div>
       </>
     )
-  }
+  // }
 
-  return(<Modal className={callState?.type === 'incomingRequest' ? 'show':'hide'} accept={call}></Modal>)
+  return(<Modal className={callState?.type === 'incomingRequest' ? 'show':'hide'} reject={reject} accept={call}></Modal>)
 }

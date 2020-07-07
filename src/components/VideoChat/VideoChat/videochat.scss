@@ -8,6 +8,18 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  z-index: 99;
+  transition: ease-in-out .5s all;
+
+  &.video-hide{
+    opacity: 0;
+    transform: translateY(100vh);
+  }
+
+  &.video-active {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
   i {
     color: #fff;

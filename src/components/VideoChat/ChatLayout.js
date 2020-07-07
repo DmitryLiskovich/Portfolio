@@ -17,6 +17,14 @@ export default function Chat() {
   const [callStatus, setCallStatus] = useState('');
   const pageState = useContext(PageState);
 
+  async function offLine() {
+    await axios.get('http://localhost:8000/offline?st=false', {withCredentials: true});
+  }
+
+  async function online() {
+    await axios.get('http://localhost:8000/offline?st=true', {withCredentials: true});
+  }
+
   useEffect(()=>{
     (async ()=>{
       const user = await axios.get('http://localhost:8000/users', {withCredentials: true});
@@ -24,6 +32,16 @@ export default function Chat() {
       setUserList(users.data);
       setUserInfo(user.data);
     })();
+
+    window.addEventListener('beforeunload', offLine);
+    if(localStorage.getItem('logined')){
+      window.addEventListener('load', online);
+    }
+
+    return () => {
+      window.removeEventListener('load', online);
+      window.removeEventListener('beforeunload', offLine);
+    }
   }, []);
 
 	return (

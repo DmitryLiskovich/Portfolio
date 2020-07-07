@@ -50,8 +50,8 @@ export const UserList = React.memo(function UserList({usersList, pageState, setS
       const clr = hexContrastCalc(bg);
       if(user.login === userInfo.login) {
         return ''
-      }
-      return <li onClick={selectUser} key={index} data-id={user.id}><span style={{background: bg, color: clr ? '#fff' : '#000'}}>{user.first_name[0]}{user.last_name[0]}</span>{user.first_name} {user.last_name}</li>
+      };
+      return <li onClick={selectUser} key={index} data-id={user.id}><span style={{background: bg, color: clr ? '#fff' : '#000'}}><div className={`status ${user.isOnline ? 'online' : 'offline'}`}></div>{user.first_name[0]}{user.last_name[0]}</span>{user.first_name} {user.last_name}</li>
     })
   }
 
