@@ -78,7 +78,7 @@ export function TextChat({selectedUser, setCallStatus, call}) {
 			</div>
 			<div className='input'>
 				<form autoComplete='off' onSubmit={sendData}>
-					<input name='message' ref={inputRef} value={input} placeholder='Type something...' onInput={inputHendler} type='text'></input>
+					<input name='message' ref={inputRef} value={input} placeholder='Type something...' onChange={inputHendler} type='text'></input>
 					<button type='submit'>Send</button>
 				</form>
 			</div>

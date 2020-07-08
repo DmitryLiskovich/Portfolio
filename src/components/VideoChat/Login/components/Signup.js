@@ -23,6 +23,7 @@ export function SignUp({setPageState}) {
     setSpinner(true);
     try {
       const resp = await axios.post('http://localhost:8000/register', userData);
+      console.log(resp);
     }
     catch (err) {
       setSpinner(false);
