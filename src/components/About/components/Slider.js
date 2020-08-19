@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export function Slider() {
+export default function Slider() {
   const [currentPost, setCurrentPost] = useState(1);
 
   return(

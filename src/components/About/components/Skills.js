@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-export function Skills() {
+export default function Skills() {
   const [sectionActive, setSectionActive] = useState(false);
 
   const sectionFour = useRef(null);

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function MyProjects() {
+export default function MyProjects() {
   const cards = (e)=>{
     if(e.currentTarget.className.indexOf('active') !== -1){
       e.currentTarget.classList.remove('active');
