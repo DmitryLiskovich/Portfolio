@@ -13,6 +13,7 @@ const envURL = window.location.hostname === 'localhost' ? 'http://localhost:8000
 export const UserInfo = React.createContext()
 
 export default function Chat() {
+  document.title = 'Dmitry Liskovich | Chat';
   const [userList, setUserList] = useState([]);
   const [userInfo, setUserInfo] = useState({});
   const [selectedUser, setSelectedUser] = useState(null);

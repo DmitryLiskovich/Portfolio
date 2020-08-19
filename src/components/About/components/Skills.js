@@ -7,13 +7,13 @@ export function Skills() {
     
     useEffect(()=>{
         window.addEventListener('scroll', function check(){
-            if(sectionFour.current){
-				if(sectionFour.current.getBoundingClientRect().y < window.innerHeight - sectionFour.current.clientHeight){
-					setSectionActive(true);
-					window.removeEventListener('scroll', check);
-				}
-			}
-        })
+          if(sectionFour.current){
+          if(sectionFour.current.getBoundingClientRect().y < window.innerHeight - sectionFour.current.clientHeight){
+            setSectionActive(true);
+            window.removeEventListener('scroll', check);
+          }
+        }
+      }, {passive: true})
     }, [])
 
   return(

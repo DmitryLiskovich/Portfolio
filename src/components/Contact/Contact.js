@@ -4,7 +4,7 @@ import axios from 'axios';
 import Spinner from '../Spinner/Spinner';
 
 export default function Contact() {
-  document.title = 'Contact';
+  document.title = 'Dmitry Liskovich | Contact';
   const [spinner, setSpinner] = useState(false);
   const [state, setState] = useState({message: '', status: true});
   async function sendEmail(e){
