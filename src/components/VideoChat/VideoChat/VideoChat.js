@@ -2,9 +2,11 @@ import React, {useEffect, useContext, useState} from 'react';
 import { Modal } from '../ModalNew/Modal';
 import Peer from 'peerjs';
 import './videochat.scss';
+
+const envURL = window.location.hostname === 'localhost' ? 'localhost' : 'ghostly-eyeballs-06543.herokuapp.com/'
+
 const config = {
-  host: 'localhost',
-  port: 9000,
+  host: envURL,
   path: '/lis-chat'
 };
 

@@ -8,6 +8,8 @@ import { UserList } from './UserList/UserList';
 import { PageState } from './Login/Auth';
 import { Modal } from './ModalNew/Modal';
 
+const envURL = window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://rocky-reef-68087.herokuapp.com'
+
 export const UserInfo = React.createContext()
 
 export default function Chat() {
@@ -18,17 +20,17 @@ export default function Chat() {
   const pageState = useContext(PageState);
 
   async function offLine() {
-    await axios.get('http://localhost:8000/offline?st=false', {withCredentials: true});
+    await axios.get(envURL+'/offline?st=false', {withCredentials: true});
   }
 
   async function online() {
-    await axios.get('http://localhost:8000/offline?st=true', {withCredentials: true});
+    await axios.get(envURL+'/offline?st=true', {withCredentials: true});
   }
 
   useEffect(()=>{
     (async ()=>{
-      const user = await axios.get('http://localhost:8000/users', {withCredentials: true});
-      const users = await axios.get('http://localhost:8000/allUsers', {withCredentials: true});
+      const user = await axios.get(envURL+'/users', {withCredentials: true});
+      const users = await axios.get(envURL+'/allUsers', {withCredentials: true});
       setUserList(users.data);
       setUserInfo(user.data);
     })();

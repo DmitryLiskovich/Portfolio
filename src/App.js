@@ -7,6 +7,8 @@ import './global.scss';
 import { Socket } from './socketContext/socket';
 import io from 'socket.io-client';
 
+const envURL = window.location.hostname === 'localhost' ? 'localhost:8000' : 'rocky-reef-68087.herokuapp.com'
+
 const About = lazy(()=> import('./components/About/About'));
 const Notfount = lazy(()=> import('./components/Notfound/Notfound'));
 const Weather = lazy(()=> import('./components/Weather/Weather'));
@@ -18,7 +20,7 @@ export default function App() {
 	return(
 		<div>
 		<Navigate/>
-      <Socket.Provider value={io.connect('localhost:8000')}>
+      <Socket.Provider value={io.connect(envURL)}>
         <Suspense fallback={<div className='spinner-main'><Spinner></Spinner></div>}>
           <HashRouter>
             <Switch>
