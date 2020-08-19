@@ -37,16 +37,16 @@ export default function Droptable(props){
 									draggableId={item.id}
 									index={index}>
 									{(provided) => (
-											<div
-												ref={provided.innerRef}
-												{...provided.draggableProps}
-												{...provided.dragHandleProps}
-												style={getItemStyle(
-													snapshot.isDragging,
-													provided.draggableProps.style
-												)}>
-												<Task title={item.content.title} text={item.content.text}></Task>
-											</div>
+										<div
+											ref={provided.innerRef}
+											{...provided.draggableProps}
+											{...provided.dragHandleProps}
+											style={getItemStyle(
+												snapshot.isDragging,
+												provided.draggableProps.style
+											)}>
+											<Task title={item.content.title} text={item.content.text}></Task>
+										</div>
 									)}
 								</Draggable>
 							))}

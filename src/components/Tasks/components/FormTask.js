@@ -1,7 +1,6 @@
 import React from 'react';
 
 export default function AddTask(){
-	document.title = 'Tasks';
 	return(
 		<>
 			<br></br>

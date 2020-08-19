@@ -7,7 +7,7 @@ export default function (){
 
 	const [spinner, setSpinner] = useState(false);
 
-	document.title = 'Weather';
+	document.title = 'Dmitry Liskovich | Weather';
 	
 	const [weather, setWeather] = useState({
 		city: null,
@@ -53,6 +53,7 @@ export default function (){
 			setSpinner(false);	  
 		})();
 	}
+	
 	const weatherTab = 
 	<ul className='text-left'>
 		<li>City: {weather.city}</li>
