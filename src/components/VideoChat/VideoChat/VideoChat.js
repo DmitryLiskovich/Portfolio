@@ -1,9 +1,9 @@
-import React, {useEffect, useContext, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Modal } from '../ModalNew/Modal';
 import Peer from 'peerjs';
 import './videochat.scss';
 
-const envURL = window.location.hostname === 'localhost' ? 'localhost' : 'ghostly-eyeballs-06543.herokuapp.com'
+const envURL = 'ghostly-eyeballs-06543.herokuapp.com'
 
 const config = {
   host: envURL,
@@ -101,21 +101,17 @@ export function VideoChat({callNumber, myNumber, callStatus, setCallStatus}) {
     setCallState({});
   }
 
-  // if(callState?.type === 'call' || callStatus.type === 'startCall') {
-    return (
-      <>
-        <Modal className={callState?.type === 'incomingRequest' ? 'show':'hide'} reject={reject} accept={call}></Modal>
-        <div className={`video-chat ${callState?.type === 'call' || callStatus.type === 'startCall' ? 'video-active' : 'video-hide'}`}>
-          {callStatus.type === 'startCall' && <><div className='animate'/><div className='started-calling'>{callStatus.user.username.slice(0, 2)}</div></>}
-          {callStatus.type !== 'startCall' && <video autoPlay ref={(video) => video && remoteStream ? video.srcObject = remoteStream : ''}></video>}
-          <div className='video-chat-controll'>
-            <i className="fas fa-microphone-alt-slash"></i>
-            <i onClick={endCall} className="fas fa-phone-slash"></i>
-          </div>
+  return (
+    <>
+      <Modal className={callState?.type === 'incomingRequest' ? 'show':'hide'} reject={reject} accept={call}></Modal>
+      <div className={`video-chat ${callState?.type === 'call' || callStatus.type === 'startCall' ? 'video-active' : 'video-hide'}`}>
+        {callStatus.type === 'startCall' && <><div className='animate'/><div className='started-calling'>{callStatus.user.username.slice(0, 2)}</div></>}
+        {callStatus.type !== 'startCall' && <video autoPlay ref={(video) => video && remoteStream ? video.srcObject = remoteStream : ''}></video>}
+        <div className='video-chat-controll'>
+          <i className="fas fa-microphone-alt-slash"></i>
+          <i onClick={endCall} className="fas fa-phone-slash"></i>
         </div>
-      </>
-    )
-  // }
-
-  return(<Modal className={callState?.type === 'incomingRequest' ? 'show':'hide'} reject={reject} accept={call}></Modal>)
+      </div>
+    </>
+  )
 }

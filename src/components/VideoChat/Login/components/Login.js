@@ -11,6 +11,8 @@ export function Login({setPageState}) {
     password: ''
   });
 
+  const [errorMessage, setErrorMessage] = useState('');
+
   const [spinner, setSpinner] = useState(false);
 
   async function submit(e) {
@@ -21,10 +23,17 @@ export function Login({setPageState}) {
     }
 
     setSpinner(true);
-    const response = await axios.post(envURL+'/auth', userData, {withCredentials: true});
-    if(response.status === 200) {
-      localStorage.setItem('logined', true);
-      setPageState('Logined');
+    try {
+      const response = await axios.post(envURL+'/auth', userData, {withCredentials: true});
+      if(response.status === 200) {
+        localStorage.setItem('logined', true);
+        setPageState('Logined');
+      }
+    } 
+    catch(e) {
+      console.log(e);
+      setSpinner(false);
+      setErrorMessage('Login or password is not correct');
     }
     setSpinner(false);
   }
@@ -40,6 +49,7 @@ export function Login({setPageState}) {
         <form className='user-connection' onSubmit={submit}>
         {spinner && <Spinner></Spinner>}
           <h2 className="form-signin-heading">Sign in</h2>
+          <p className={errorMessage ? 'error-active' : ''}>{errorMessage}</p>
           <label htmlFor='login'>Login</label>
           <input id='login' placeholder="login" type="text" name='login' value={userData.login} onChange={changeHandler}/>
           <label htmlFor='login'>Passowrd</label>
