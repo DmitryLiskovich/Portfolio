@@ -22,7 +22,7 @@ export function SignUp({setPageState}) {
 
     setSpinner(true);
     try {
-      const resp = await axios.post('http://localhost:8000/register', userData);
+      const resp = await axios.post('https://rocky-reef-68087.herokuapp.com/register', userData);
       console.log(resp);
     }
     catch (err) {

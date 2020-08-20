@@ -19,7 +19,7 @@ export default function App() {
 	return(
 		<div>
 		<Navigate></Navigate>
-      <Socket.Provider value={io.connect('localhost:8000')}>
+      <Socket.Provider value={io.connect('https://rocky-reef-68087.herokuapp.com/')}>
         <Suspense fallback={<div className='spinner-main'><Spinner></Spinner></div>}>
           <HashRouter>
             <Switch>

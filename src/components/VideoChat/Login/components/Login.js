@@ -19,7 +19,7 @@ export function Login({setPageState}) {
     }
 
     setSpinner(true);
-    const response = await axios.post('http://localhost:8000/auth', userData, {withCredentials: true});
+    const response = await axios.post('https://rocky-reef-68087.herokuapp.com/auth', userData, {withCredentials: true});
     if(response.status === 200) {
       localStorage.setItem('logined', true);
       setPageState('Logined');

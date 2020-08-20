@@ -15,20 +15,21 @@ export default function Chat() {
   const [userInfo, setUserInfo] = useState({});
   const [selectedUser, setSelectedUser] = useState(null);
   const [callStatus, setCallStatus] = useState('');
+  const [userListIsOpen, setUserListIsOpen] = useState(false);
   const pageState = useContext(PageState);
 
   async function offLine() {
-    await axios.get('http://localhost:8000/offline?st=false', {withCredentials: true});
+    await axios.get('https://rocky-reef-68087.herokuapp.com/offline?st=false', {withCredentials: true});
   }
 
   async function online() {
-    await axios.get('http://localhost:8000/offline?st=true', {withCredentials: true});
+    await axios.get('https://rocky-reef-68087.herokuapp.com/offline?st=true', {withCredentials: true});
   }
 
   useEffect(()=>{
     (async ()=>{
-      const user = await axios.get('http://localhost:8000/users', {withCredentials: true});
-      const users = await axios.get('http://localhost:8000/allUsers', {withCredentials: true});
+      const user = await axios.get('https://rocky-reef-68087.herokuapp.com/users', {withCredentials: true});
+      const users = await axios.get('https://rocky-reef-68087.herokuapp.com/allUsers', {withCredentials: true});
       setUserList(users.data);
       setUserInfo(user.data);
     })();
@@ -48,8 +49,9 @@ export default function Chat() {
     <>
     {callStatus.type === 'request' && <Modal/>}
       <div className="chat-wrapper">
+        <i onClick={() => setUserListIsOpen((state) => !state)} className={`fas fa-arrow-left ${userListIsOpen ? 'open' : 'close'}`}></i>
         <UserInfo.Provider value={userInfo}>
-          <UserList usersList={userList} pageState={pageState} setSelectedUser={setSelectedUser}/>
+          <UserList userListIsOpen={userListIsOpen} usersList={userList} pageState={pageState} setSelectedUser={setSelectedUser}/>
           {!selectedUser && <InitialScreen></InitialScreen>}
           {selectedUser &&<TextChat setCallStatus={setCallStatus} pageState={pageState} selectedUser={selectedUser}></TextChat>}
           <VideoChat setCallStatus={setCallStatus} callStatus={callStatus} pageState={pageState} callNumber={selectedUser?.id} myNumber={userInfo.id} ></VideoChat>

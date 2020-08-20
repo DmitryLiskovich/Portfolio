@@ -16,7 +16,7 @@ export function TextChat({selectedUser, setCallStatus, call}) {
 
   useEffect(()=>{
     setSpinner(true)
-    axios.get('http://localhost:8000/users', {withCredentials: true}).then(data => {
+    axios.get('https://rocky-reef-68087.herokuapp.com/users', {withCredentials: true}).then(data => {
       const userInfo = data.data;
       setCurrentUser(userInfo);
       if(userInfo.id === selectedUser.id) {
