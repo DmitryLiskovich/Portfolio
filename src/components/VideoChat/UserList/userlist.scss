@@ -5,6 +5,26 @@
   border: 2px solid #00000033;
   border-top: none;
 
+  @media screen and (max-width: 991px) {
+    position: absolute;
+    width: 100%;
+    z-index: 998;
+    background: #fff;
+    transition: transform .5s ease-out;
+
+    .fas.fa-sign-out-alt {
+      margin-right: 30px;
+    }
+
+    &.show {
+      transform: translateX(0);
+    }
+
+    &.hidden {
+      transform: translateX(-100%);
+    }
+  }
+
   .status {
     position: absolute;
     height: 10px;

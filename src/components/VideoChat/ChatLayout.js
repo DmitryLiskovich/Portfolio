@@ -18,6 +18,7 @@ export default function Chat() {
   const [userInfo, setUserInfo] = useState({});
   const [selectedUser, setSelectedUser] = useState(null);
   const [callStatus, setCallStatus] = useState('');
+  const [userListIsOpen, setUserListIsOpen] = useState(false);
   const pageState = useContext(PageState);
 
   async function offLine() {
@@ -51,8 +52,9 @@ export default function Chat() {
     <>
     {callStatus.type === 'request' && <Modal/>}
       <div className="chat-wrapper">
+        <i onClick={() => setUserListIsOpen((state) => !state)} className={`fas fa-arrow-left ${userListIsOpen ? 'open' : 'close'}`}></i>
         <UserInfo.Provider value={userInfo}>
-          <UserList usersList={userList} pageState={pageState} setSelectedUser={setSelectedUser}/>
+          <UserList userListIsOpen={userListIsOpen} usersList={userList} pageState={pageState} setSelectedUser={setSelectedUser}/>
           {!selectedUser && <InitialScreen></InitialScreen>}
           {selectedUser &&<TextChat setCallStatus={setCallStatus} pageState={pageState} selectedUser={selectedUser}></TextChat>}
           <VideoChat setCallStatus={setCallStatus} callStatus={callStatus} pageState={pageState} callNumber={selectedUser?.id} myNumber={userInfo.id} ></VideoChat>

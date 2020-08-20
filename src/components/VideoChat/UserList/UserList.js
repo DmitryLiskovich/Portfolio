@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import './userlist.scss';
 import { UserInfo } from '../ChatLayout'
 
-export const UserList = React.memo(function UserList({usersList, pageState, setSelectedUser}) {
+export const UserList = React.memo(function UserList({usersList, pageState, setSelectedUser, userListIsOpen}) {
   const [users, setUsers] = useState([]);
   const userInfo = useContext(UserInfo);
   const [find, setFind] = useState([]);
@@ -56,10 +56,12 @@ export const UserList = React.memo(function UserList({usersList, pageState, setS
   }
 
   return (
-    <div className='user-list-wrapper'>
+    <div className={`user-list-wrapper ${userListIsOpen ? 'show' : 'hidden'}`}>
       <div className='user-info'>
         <h3>{userInfo.first_name} {userInfo.last_name}</h3>
-        <i onClick={logOut} className="fas fa-sign-out-alt"></i>
+        <div call='controll'>
+          <i onClick={logOut} className="fas fa-sign-out-alt"></i>
+        </div>
       </div>
       <div className="list-controllers">
         <button className="user-changer">My Contacts</button>

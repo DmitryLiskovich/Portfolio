@@ -72,6 +72,12 @@
 
 }
 
+@media screen and (max-width: 991px) {
+  .video-chat {
+    width: 100%;
+  }
+}
+
 @keyframes puls {
   from {
     opacity: 1;

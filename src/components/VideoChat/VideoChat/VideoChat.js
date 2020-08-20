@@ -3,11 +3,41 @@ import { Modal } from '../ModalNew/Modal';
 import Peer from 'peerjs';
 import './videochat.scss';
 
-const envURL = 'ghostly-eyeballs-06543.herokuapp.com'
+const envURL = window.location.hostname === 'localhost' ? 'localhost' : 'ghostly-eyeballs-06543.herokuapp.com'
+
+const stunServers = [
+  { url: 'stun:stun.l.google.com:19302' },
+  { url: 'stun:stun1.l.google.com:19302' },
+  { url: 'stun:stun2.l.google.com:19302' },
+  { url: 'stun:stun3.l.google.com:19302' },
+  { url: 'stun:stun4.l.google.com:19302' },
+  {
+    url: 'turn:numb.viagenie.ca',
+    credential: 'muazkh',
+    username: 'webrtc@live.com',
+  },
+  {
+    url: 'turn:192.158.29.39:3478?transport=udp',
+    credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
+    username: '28224511:1379330808',
+  },
+  {
+    url: 'turn:192.158.29.39:3478?transport=tcp',
+    credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
+    username: '28224511:1379330808',
+  },
+];
 
 const config = {
-  host: envURL,
+  host: 'haunted-vault-85408.herokuapp.com',
+  path: '/peer-api',
+  config: { iceServers: stunServers },
 };
+
+if (window.location.hostname === 'localhost') {
+  config.port = 9000;
+}
+
 
 export function VideoChat({callNumber, myNumber, callStatus, setCallStatus}) {
   const [callState, setCallState] = useState({});
