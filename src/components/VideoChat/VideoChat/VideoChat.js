@@ -30,6 +30,10 @@ const config = {
   host: 'haunted-vault-85408.herokuapp.com',
   path: '/peer-api',
   config: { iceServers: stunServers },
+const envURL = window.location.hostname === 'localhost' ? 'localhost' : 'ghostly-eyeballs-06543.herokuapp.com'
+
+const config = {
+  host: envURL,
 };
 
 if (window.location.hostname === 'localhost') {

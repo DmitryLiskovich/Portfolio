@@ -5,6 +5,8 @@ import Spinner from '../Spinner/Spinner';
 import axios from 'axios';
 import './TextChat.scss';
 
+const envURL = window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://rocky-reef-68087.herokuapp.com'
+
 export function TextChat({selectedUser, setCallStatus, call}) {
   const socket = useContext(Socket);
   const [messages, setMessages] = useState([]);
@@ -16,7 +18,7 @@ export function TextChat({selectedUser, setCallStatus, call}) {
 
   useEffect(()=>{
     setSpinner(true)
-    axios.get('https://rocky-reef-68087.herokuapp.com/users', {withCredentials: true}).then(data => {
+    axios.get(envURL + '/users', {withCredentials: true}).then(data => {
       const userInfo = data.data;
       setCurrentUser(userInfo);
       if(userInfo.id === selectedUser.id) {

@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
-import Droptable from './Droptable';
-import AddTask from './FormTask';
+import Droptable from './components/Droptable';
+import AddTask from './components/FormTask';
 import './task.scss'
 
 export default function TaskPage() {
+	document.title = 'Dmitry Liskovich | Tasks'
 
 	const reorder = (list, startIndex, endIndex) => {
 		const result = Array.from(list);
@@ -62,7 +63,7 @@ export default function TaskPage() {
 		const { source, destination } = result;
 
 		if (!destination) {
-			const sourceList = id2List[result.source.droppableId];
+			const sourceList = id2List[source.droppableId];
 			const elements = state;
 			elements[sourceList] = elements[sourceList].filter((item) => item.id !== result.draggableId);
 			localStorage.setItem('data', JSON.stringify(elements));
