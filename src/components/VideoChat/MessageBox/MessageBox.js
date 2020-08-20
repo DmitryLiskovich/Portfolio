@@ -20,7 +20,7 @@ export function MessageBox(props) {
       'December'
       ]
     const newDate = new Date(date);
-    return `${newDate.getDate()} ${months[newDate.getMonth()+1]} - ${newDate.getHours()}:${newDate.getMinutes() < 10 ? '0' + newDate.getMinutes() : newDate.getMinutes()}`;
+    return `${newDate.getDate()} ${months[newDate.getMonth()]} - ${newDate.getHours()}:${newDate.getMinutes() < 10 ? '0' + newDate.getMinutes() : newDate.getMinutes()}`;
   }
 
   return (

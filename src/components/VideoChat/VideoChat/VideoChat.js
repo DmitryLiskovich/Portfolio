@@ -3,8 +3,6 @@ import { Modal } from '../ModalNew/Modal';
 import Peer from 'peerjs';
 import './videochat.scss';
 
-const envURL = window.location.hostname === 'localhost' ? 'localhost' : 'ghostly-eyeballs-06543.herokuapp.com'
-
 const stunServers = [
   { url: 'stun:stun.l.google.com:19302' },
   { url: 'stun:stun1.l.google.com:19302' },
