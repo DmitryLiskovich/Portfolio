@@ -9,7 +9,7 @@
     "node-sass": "^4.14.1",
     "paper": "^0.12.4",
     "peerjs": "^1.2.0",
-    "react": "^0.0.0-experimental-94c0244ba",
+    "react": "^0.14.0",
     "react-beautiful-dnd": "^11.0.4",
     "react-bootstrap": "^1.0.0-beta.9",
     "react-dom": "^0.0.0-experimental-94c0244ba",
