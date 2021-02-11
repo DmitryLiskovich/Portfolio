@@ -5,7 +5,7 @@ import Spinner from '../Spinner/Spinner';
 import axios from 'axios';
 import './TextChat.scss';
 
-const envURL = window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://rocky-reef-68087.herokuapp.com'
+const envURL = window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://ghostly-eyeballs-06543.herokuapp.com'
 
 export function TextChat({selectedUser, setCallStatus, call}) {
   const socket = useContext(Socket);

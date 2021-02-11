@@ -3,7 +3,7 @@ import Spinner from '../../Spinner/Spinner';
 import axios from 'axios';
 import './login.scss';
 
-const envURL = window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://rocky-reef-68087.herokuapp.com'
+const envURL = window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://ghostly-eyeballs-06543.herokuapp.com'
 
 export function Login({setPageState}) {
   const [userData, setUserData] = useState({

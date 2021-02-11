@@ -23,19 +23,29 @@ export default function Navigate(){
 				<div className="navbar-list">
 					<ul onClick={()=> setIsOpen(false)} className="navbar-nav">
 						<li className="nav-item">
-							<NavLink activeClassName='active' className="nav-link" to='/about'>About</NavLink>
+							<a href='javascript:void(0)' rel="canonical">
+								<NavLink activeClassName='active' className="nav-link" to='/about'>About</NavLink>
+							</a>
 						</li>
 						<li className="nav-item">
-							<NavLink activeClassName='active' className="nav-link" to='/weather'>Weather</NavLink>
+							<a href='javascript:void(0)' rel="canonical">
+								<NavLink activeClassName='active' className="nav-link" to='/weather'>Weather</NavLink>
+							</a>
 						</li>
 						<li className="nav-item">
-							<NavLink activeClassName='active' className="nav-link" to='/task'>Tasks</NavLink>
+							<a href='javascript:void(0)' rel="canonical">
+								<NavLink activeClassName='active' className="nav-link" to='/task'>Tasks</NavLink>
+							</a>
 						</li>
 						<li className="nav-item">
-							<NavLink activeClassName='active' className="nav-link" to='/chat'>WebRTC/socket chat</NavLink>
+							<a href='javascript:void(0)' rel="canonical">
+								<NavLink activeClassName='active' className="nav-link" to='/chat'>WebRTC/socket chat</NavLink>
+							</a>
 						</li>
 						<li className="nav-item">
-							<NavLink activeClassName='active' className="nav-link" to='/contact'>Contact</NavLink>
+							<a href='javascript:void(0)' rel="canonical">
+								<NavLink activeClassName='active' className="nav-link" to='/contact'>Contact</NavLink>
+							</a>
 						</li>
 					</ul>
 					<div className="form-inline">

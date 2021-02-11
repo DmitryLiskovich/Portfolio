@@ -8,7 +8,7 @@ import { UserList } from './UserList/UserList';
 import { PageState } from './Login/Auth';
 import { Modal } from './ModalNew/Modal';
 
-const envURL = window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://rocky-reef-68087.herokuapp.com'
+const envURL = window.location.hostname === 'localhost' ? 'http://localhost:8000' : 'https://ghostly-eyeballs-06543.herokuapp.com'
 
 export const UserInfo = React.createContext()
 
